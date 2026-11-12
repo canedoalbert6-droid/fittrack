@@ -1,15 +1,14 @@
 {
-  "build": 2012,
-  "version": "1.1.1",
+  "build": 2013,
+  "version": "1.1.2",
   "notes": [
-    "56 budget recipes and 47 store picks in Meal ideas",
-    "Carinderia meals: rice + monggo, sinigang, inasal and more",
-    "The full Minute Burger menu (estimated nutrition)",
-    "7-Eleven's 7-Fresh chicken breast: 19 g protein"
+    "McDonald's menu with official nutrition facts",
+    "Jollibee, Mang Inasal and Chowking favorites (estimated)",
+    "Search \"mcdo\", \"jollibee\", \"mang inasal\" or \"chowking\""
   ],
   "apk": {
-    "arm64": "https://github.com/canedoalbert6-droid/fittrack/releases/download/v1.1.1/FitTrack.apk",
-    "arm": "https://github.com/canedoalbert6-droid/fittrack/releases/download/v1.1.1/FitTrack-older-phones.apk"
+    "arm64": "https://github.com/canedoalbert6-droid/fittrack/releases/download/v1.1.2/FitTrack.apk",
+    "arm": "https://github.com/canedoalbert6-droid/fittrack/releases/download/v1.1.2/FitTrack-older-phones.apk"
   },
   "page": "https://canedoalbert6-droid.github.io/fittrack/"
 }
