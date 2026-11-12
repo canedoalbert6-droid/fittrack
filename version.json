@@ -1,12 +1,12 @@
 {
-  "build": 2008,
-  "version": "1.0.7",
+  "build": 2009,
+  "version": "1.0.8",
   "notes": [
-    "Clearer watch setup for Infinix: explains why it can't connect and what to use instead"
+    "Heart rate now shows when it was measured, e.g. \"Heart rate · 2:41 PM\""
   ],
   "apk": {
-    "arm64": "https://github.com/canedoalbert6-droid/fittrack/releases/download/v1.0.7/FitTrack.apk",
-    "arm": "https://github.com/canedoalbert6-droid/fittrack/releases/download/v1.0.7/FitTrack-older-phones.apk"
+    "arm64": "https://github.com/canedoalbert6-droid/fittrack/releases/download/v1.0.8/FitTrack.apk",
+    "arm": "https://github.com/canedoalbert6-droid/fittrack/releases/download/v1.0.8/FitTrack-older-phones.apk"
   },
   "page": "https://canedoalbert6-droid.github.io/fittrack/"
 }
