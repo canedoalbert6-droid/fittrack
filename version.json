@@ -1,14 +1,12 @@
 {
-  "build": 2007,
-  "version": "1.0.6",
+  "build": 2008,
+  "version": "1.0.7",
   "notes": [
-    "See at a glance if your watch is connected and syncing",
-    "Shows when your watch last synced, on Today and Activity",
-    "Tells you when your watch app stops sending data"
+    "Clearer watch setup for Infinix: explains why it can't connect and what to use instead"
   ],
   "apk": {
-    "arm64": "https://github.com/canedoalbert6-droid/fittrack/releases/download/v1.0.6/FitTrack.apk",
-    "arm": "https://github.com/canedoalbert6-droid/fittrack/releases/download/v1.0.6/FitTrack-older-phones.apk"
+    "arm64": "https://github.com/canedoalbert6-droid/fittrack/releases/download/v1.0.7/FitTrack.apk",
+    "arm": "https://github.com/canedoalbert6-droid/fittrack/releases/download/v1.0.7/FitTrack-older-phones.apk"
   },
   "page": "https://canedoalbert6-droid.github.io/fittrack/"
 }
