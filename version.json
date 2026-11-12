@@ -1,13 +1,14 @@
 {
-  "build": 2006,
-  "version": "1.0.5",
+  "build": 2007,
+  "version": "1.0.6",
   "notes": [
-    "Contact the developer from Settings: Facebook and email",
-    "Bug reports by email include your app version automatically"
+    "See at a glance if your watch is connected and syncing",
+    "Shows when your watch last synced, on Today and Activity",
+    "Tells you when your watch app stops sending data"
   ],
   "apk": {
-    "arm64": "https://github.com/canedoalbert6-droid/fittrack/releases/download/v1.0.5/FitTrack.apk",
-    "arm": "https://github.com/canedoalbert6-droid/fittrack/releases/download/v1.0.5/FitTrack-older-phones.apk"
+    "arm64": "https://github.com/canedoalbert6-droid/fittrack/releases/download/v1.0.6/FitTrack.apk",
+    "arm": "https://github.com/canedoalbert6-droid/fittrack/releases/download/v1.0.6/FitTrack-older-phones.apk"
   },
   "page": "https://canedoalbert6-droid.github.io/fittrack/"
 }
