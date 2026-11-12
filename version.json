@@ -1,14 +1,13 @@
 {
-  "build": 2005,
-  "version": "1.0.4",
+  "build": 2006,
+  "version": "1.0.5",
   "notes": [
-    "Setup guide for Infinix watches (My Health)",
-    "Pick your watch brand for step-by-step setup",
-    "One-tap button to open your watch app"
+    "Contact the developer from Settings: Facebook and email",
+    "Bug reports by email include your app version automatically"
   ],
   "apk": {
-    "arm64": "https://github.com/canedoalbert6-droid/fittrack/releases/download/v1.0.4/FitTrack.apk",
-    "arm": "https://github.com/canedoalbert6-droid/fittrack/releases/download/v1.0.4/FitTrack-older-phones.apk"
+    "arm64": "https://github.com/canedoalbert6-droid/fittrack/releases/download/v1.0.5/FitTrack.apk",
+    "arm": "https://github.com/canedoalbert6-droid/fittrack/releases/download/v1.0.5/FitTrack-older-phones.apk"
   },
   "page": "https://canedoalbert6-droid.github.io/fittrack/"
 }
