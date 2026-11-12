@@ -1,15 +1,14 @@
 {
-  "build": 2010,
-  "version": "1.0.9",
+  "build": 2011,
+  "version": "1.1.0",
   "notes": [
-    "Watch status now works for phones that only share steps",
-    "Check for updates tells you when you're offline",
-    "Deleted meals no longer leave photos behind",
-    "No more \"not connected\" reminder for Infinix watches"
+    "91 new Filipino dishes: 159 in total",
+    "Silog plates, inasal, lechon, sisig, pares, street food, kakanin and drinks",
+    "Filipino serving sizes like \"1 paa\", \"3 sticks\" and \"1 small cup\""
   ],
   "apk": {
-    "arm64": "https://github.com/canedoalbert6-droid/fittrack/releases/download/v1.0.9/FitTrack.apk",
-    "arm": "https://github.com/canedoalbert6-droid/fittrack/releases/download/v1.0.9/FitTrack-older-phones.apk"
+    "arm64": "https://github.com/canedoalbert6-droid/fittrack/releases/download/v1.1.0/FitTrack.apk",
+    "arm": "https://github.com/canedoalbert6-droid/fittrack/releases/download/v1.1.0/FitTrack-older-phones.apk"
   },
   "page": "https://canedoalbert6-droid.github.io/fittrack/"
 }
