@@ -4,528 +4,381 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>FitTrack</title>
-<meta name="description" content="Snap your food, hit your protein, and sync your smartwatch. Free Android app with Filipino foods built in.">
-<meta property="og:title" content="FitTrack: snap your food, hit your protein">
-<meta property="og:description" content="Free Android fitness tracker with an AI food scanner, Filipino foods and smartwatch sync.">
+<meta name="description" content="A free Android calorie app that actually knows what tapsilog is. Snap your plate, hit your protein, sync your smartwatch.">
+<meta property="og:title" content="FitTrack: a calorie app that knows what tapsilog is">
+<meta property="og:description" content="Free Android app. Snap your plate, hit your protein, sync your smartwatch.">
 <meta property="og:image" content="icon.png">
-<meta name="theme-color" content="#141517">
+<meta name="theme-color" content="#F6F1E7">
 <link rel="icon" href="icon.png">
 <link rel="apple-touch-icon" href="icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&family=JetBrains+Mono:wght@400;600&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #F4F4F1; --card: #FFFFFF; --ink: #141517; --muted: #5F6368;
-    --line: #E6E6E1; --inverse: #141517; --on-inverse: #FFFFFF;
-    --lime: #DDF47A; --lime-bar: #B6DA2E; --blue: #C9E4FF; --blue-bar: #7DBBF2;
-    --peach: #FFD9B3; --peach-bar: #F5A866; --lilac: #E6DDF0; --sage: #D9E4D0; --cream: #FFE9CF;
-    --glass: rgba(255,255,255,0.72);
-    --blob-a: 0.75; --blob-b: 0.6;
-    --shadow: 0 20px 60px -20px rgba(20,21,23,0.25);
+    --paper: #F6F1E7; --paper-2: #EFE8D9; --card: #FFFDF8; --ink: #1B1B19; --soft: #5C5A53;
+    --rule: #DCD3C1; --lime: #DDF47A; --tomato: #D9452B; --leaf: #2F5D3A;
+    --shadow: 0 1px 0 rgba(27,27,25,.06), 0 18px 40px -24px rgba(27,27,25,.35);
+    --grain: .5;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
-      --bg: #0F1012; --card: #1C1D20; --ink: #F2F2EE; --muted: #9EA2A8;
-      --line: #2A2C30; --inverse: #26282C; --glass: rgba(15,16,18,0.72);
-      --blob-a: 0.22; --blob-b: 0.16; --shadow: 0 20px 60px -20px rgba(0,0,0,0.7);
+      --paper: #151513; --paper-2: #1D1C19; --card: #22211D; --ink: #F1ECE0; --soft: #A8A397;
+      --rule: #34322C; --leaf: #8FBF8F; --shadow: 0 18px 40px -24px rgba(0,0,0,.8); --grain: .25;
     }
   }
   :root[data-theme="dark"] {
-    --bg: #0F1012; --card: #1C1D20; --ink: #F2F2EE; --muted: #9EA2A8;
-    --line: #2A2C30; --inverse: #26282C; --glass: rgba(15,16,18,0.72);
-    --blob-a: 0.22; --blob-b: 0.16; --shadow: 0 20px 60px -20px rgba(0,0,0,0.7);
+    --paper: #151513; --paper-2: #1D1C19; --card: #22211D; --ink: #F1ECE0; --soft: #A8A397;
+    --rule: #34322C; --leaf: #8FBF8F; --shadow: 0 18px 40px -24px rgba(0,0,0,.8); --grain: .25;
   }
 
   * { box-sizing: border-box; }
-  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; overflow-x: clip; }
+  html { -webkit-text-size-adjust: 100%; overflow-x: clip; scroll-behavior: smooth; }
   body {
-    margin: 0; background: var(--bg); color: var(--ink); overflow-x: clip;
-    font: 16px/1.55 Geist, system-ui, -apple-system, sans-serif;
+    margin: 0; background: var(--paper); color: var(--ink); overflow-x: clip;
+    font: 17px/1.6 Geist, system-ui, sans-serif;
   }
-  img, svg { display: block; }
+  /* faint paper grain */
+  body::before {
+    content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 100; opacity: var(--grain);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
   a { color: inherit; }
-  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 16px; }
-  .display { font-family: "Bricolage Grotesque", Geist, sans-serif; letter-spacing: -0.03em; }
-  h1, h2, h3 { font-family: "Bricolage Grotesque", Geist, sans-serif; letter-spacing: -0.03em; margin: 0; }
-  h2 { font-size: clamp(32px, 5.5vw, 52px); line-height: 1.02; }
-  h3 { font-size: 21px; line-height: 1.2; }
   p { margin: 0; }
-  .muted { color: var(--muted); }
-  .eyebrow { font-size: 14px; font-weight: 600; color: var(--muted); margin-bottom: 12px; display: inline-flex; gap: 8px; align-items: center; }
-  .eyebrow::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--lime-bar); }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
+  .hand { font-family: Caveat, cursive; }
+  h1, h2 { font-family: "Instrument Serif", Georgia, serif; font-weight: 400; margin: 0; letter-spacing: -0.015em; }
+  h2 { font-size: clamp(40px, 6vw, 60px); line-height: 1.02; }
+  em { font-style: italic; }
 
-  /* ---------- background blobs ---------- */
-  .blobs { position: absolute; inset: 0 0 auto 0; height: 900px; overflow: hidden; pointer-events: none; z-index: 0; }
-  .blob { position: absolute; border-radius: 50%; filter: blur(70px); }
-  .blob.a { width: 560px; height: 560px; background: var(--lime); opacity: var(--blob-a); top: -200px; right: -120px; animation: drift1 18s ease-in-out infinite alternate; }
-  .blob.b { width: 460px; height: 460px; background: var(--blue); opacity: var(--blob-a); top: 160px; left: -200px; animation: drift2 22s ease-in-out infinite alternate; }
-  .blob.c { width: 360px; height: 360px; background: var(--peach); opacity: var(--blob-b); top: 480px; right: 18%; animation: drift3 20s ease-in-out infinite alternate; }
-  @keyframes drift1 { to { transform: translate(-80px, 90px) scale(1.12); } }
-  @keyframes drift2 { to { transform: translate(110px, -40px) scale(0.92); } }
-  @keyframes drift3 { to { transform: translate(-60px, -80px) scale(1.15); } }
-
-  /* ---------- nav ---------- */
-  .nav { position: sticky; top: 0; z-index: 50; transition: background .3s, box-shadow .3s; }
-  .nav.scrolled { background: var(--glass); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); box-shadow: 0 1px 0 var(--line); }
-  .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 68px; }
-  .brand { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 17px; text-decoration: none; }
-  .brand img { width: 36px; height: 36px; border-radius: 10px; animation: wobble 6s ease-in-out infinite; }
-  @keyframes wobble { 0%, 86%, 100% { transform: rotate(0); } 90% { transform: rotate(-10deg); } 95% { transform: rotate(8deg); } }
-  .nav-cta { display: none; }
-  @media (min-width: 640px) { .nav-cta { display: inline-flex; } }
-
-  /* ---------- buttons ---------- */
-  .btn {
-    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
-    border-radius: 999px; font-weight: 600; text-decoration: none; cursor: pointer;
-    transition: transform .25s cubic-bezier(.34,1.56,.64,1), box-shadow .25s, background .2s;
-    -webkit-tap-highlight-color: transparent;
+  /* highlighter */
+  mark { background: none; color: inherit; position: relative; white-space: nowrap; z-index: 0; }
+  mark::before {
+    content: ""; position: absolute; z-index: -1; left: -.1em; right: -.12em; top: .5em; bottom: .04em;
+    background: var(--lime); border-radius: .2em .5em .3em .45em; transform: rotate(-1.2deg) scaleX(0); transform-origin: left;
+    transition: transform .7s cubic-bezier(.7,0,.3,1) .5s;
   }
-  .btn:active { transform: scale(0.96); }
-  .btn-lime { background: var(--lime); color: #141517; padding: 0 28px; min-height: 60px; font-size: 17px; box-shadow: 0 10px 30px -8px rgba(182,218,46,0.7); position: relative; overflow: hidden; }
-  .btn-lime:hover { transform: translateY(-3px); box-shadow: 0 16px 40px -10px rgba(182,218,46,0.9); }
-  .btn-lime::after { content: ""; position: absolute; inset: 0; background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,0.65) 50%, transparent 70%); transform: translateX(-120%); animation: shine 4s ease-in-out infinite 1.5s; }
-  @keyframes shine { 0%, 70% { transform: translateX(-120%); } 100% { transform: translateX(120%); } }
-  .btn-dark { background: var(--ink); color: var(--bg); padding: 0 20px; min-height: 44px; font-size: 15px; }
-  .btn-dark:hover { transform: translateY(-2px); }
-  .btn svg { width: 20px; height: 20px; }
-  .bounce { animation: nudge 2.4s ease-in-out infinite; }
-  @keyframes nudge { 0%, 60%, 100% { transform: translateY(0); } 70% { transform: translateY(3px); } 80% { transform: translateY(-1px); } }
+  .in mark::before { transform: rotate(-1.2deg) scaleX(1); }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) mark { color: #1B1B19; } }
+  :root[data-theme="dark"] mark { color: #1B1B19; }
+
+  /* ---------- top bar ---------- */
+  .top { padding: 18px 0; }
+  .top .wrap { display: flex; justify-content: space-between; align-items: center; }
+  .brand { display: flex; gap: 10px; align-items: center; font-weight: 600; text-decoration: none; }
+  .brand img { width: 34px; height: 34px; border-radius: 10px; }
+  .top a.dl { font-weight: 500; text-decoration: none; border-bottom: 2px solid var(--ink); padding: 10px 0 1px; }
 
   /* ---------- hero ---------- */
-  .hero { position: relative; z-index: 1; padding: 32px 0 72px; }
-  .hero .wrap { display: grid; gap: 48px; align-items: center; }
-  @media (min-width: 920px) { .hero .wrap { grid-template-columns: 1.1fr 0.9fr; padding-top: 24px; } }
-  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
-  .chip { background: var(--card); border-radius: 999px; padding: 7px 14px; font-size: 14px; font-weight: 500; box-shadow: 0 1px 0 var(--line); display: inline-flex; gap: 6px; align-items: center; }
-  .chip i { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
-  h1 { font-size: clamp(48px, 10vw, 92px); line-height: 0.95; margin-bottom: 22px; }
-  .hl { position: relative; white-space: nowrap; display: inline-block; }
-  .hl::before { content: ""; position: absolute; left: -4px; right: -6px; bottom: 6%; height: 38%; background: var(--lime); border-radius: 10px; z-index: -1; transform-origin: left; transform: scaleX(0); animation: grow 0.9s cubic-bezier(.65,0,.35,1) 0.6s forwards; }
-  @keyframes grow { to { transform: scaleX(1); } }
-  .lede { font-size: clamp(18px, 2.4vw, 21px); color: var(--muted); max-width: 36ch; margin-bottom: 30px; }
-  .fine { font-size: 14px; color: var(--muted); margin-top: 14px; }
-  .rotator { display: inline-grid; vertical-align: bottom; height: 1.25em; overflow: hidden; }
-  .rotator span { grid-area: 1 / 1; color: var(--ink); font-weight: 600; animation: rotate 12s infinite; opacity: 0; }
-  .rotator span:nth-child(2) { animation-delay: 3s; }
-  .rotator span:nth-child(3) { animation-delay: 6s; }
-  .rotator span:nth-child(4) { animation-delay: 9s; }
-  @keyframes rotate { 0% { opacity: 0; transform: translateY(100%); } 3%, 22% { opacity: 1; transform: translateY(0); } 25%, 100% { opacity: 0; transform: translateY(-100%); } }
-
-  /* ---------- phone mockup ---------- */
-  .stage { position: relative; display: grid; place-items: center; min-height: 600px; }
-  .phone {
-    width: 300px; height: 610px; border-radius: 46px; background: #0B0C0D; padding: 10px;
-    box-shadow: var(--shadow), inset 0 0 0 2px #2A2C30; position: relative;
-    animation: float 6s ease-in-out infinite; transform-style: preserve-3d;
+  .hero { padding: 20px 0 80px; }
+  .hero .wrap { display: grid; gap: 56px; align-items: center; }
+  @media (min-width: 900px) { .hero .wrap { grid-template-columns: 1.15fr .85fr; } }
+  .hi { font-size: 30px; color: var(--soft); transform: rotate(-3deg); display: inline-block; margin-bottom: 6px; }
+  h1 { font-size: clamp(50px, 8.6vw, 90px); line-height: .98; margin-bottom: 24px; }
+  .intro { font-size: 19px; color: var(--soft); max-width: 34em; margin-bottom: 30px; }
+  .intro b { color: var(--ink); font-weight: 600; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 12px; min-height: 58px; padding: 0 26px 0 22px;
+    background: var(--ink); color: var(--paper); text-decoration: none; font-weight: 600; font-size: 17px;
+    border-radius: 14px; box-shadow: 4px 4px 0 var(--lime); transition: transform .15s, box-shadow .15s;
   }
-  @keyframes float { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-14px) rotate(-1deg); } }
-  .screen { width: 100%; height: 100%; border-radius: 37px; background: #F4F4F1; overflow: hidden; position: relative; color: #141517; padding: 34px 14px 0; }
-  .notch { position: absolute; top: 12px; left: 50%; width: 84px; height: 22px; background: #0B0C0D; border-radius: 20px; transform: translateX(-50%); z-index: 3; }
-  .screen .glow { position: absolute; width: 260px; height: 260px; border-radius: 50%; background: radial-gradient(#DDF47A 0%, rgba(221,244,122,0) 70%); top: -110px; right: -90px; }
-  .s-head { position: relative; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-  .s-date { font-size: 10px; color: #5F6368; }
-  .s-hi { font: 700 20px/1.1 "Bricolage Grotesque", sans-serif; letter-spacing: -0.03em; }
-  .s-av { width: 30px; height: 30px; border-radius: 50%; background: linear-gradient(135deg, #DDF47A, #B6DA2E); display: grid; place-items: center; font: 700 13px "Bricolage Grotesque", sans-serif; }
-  .s-week { display: flex; gap: 4px; margin-bottom: 10px; position: relative; }
-  .s-week div { flex: 1; height: 34px; border-radius: 10px; display: grid; place-items: center; font-size: 8px; color: #5F6368; }
-  .s-week div b { display: block; width: 4px; height: 4px; border-radius: 50%; background: #141517; margin: 0 auto; }
-  .s-week div.today { background: #141517; color: #F4F4F1; font-weight: 600; }
-  .s-card { background: #fff; border-radius: 20px; padding: 14px; margin-bottom: 8px; position: relative; box-shadow: 0 6px 16px -10px rgba(0,0,0,.2); }
-  .s-big { font: 800 50px/0.9 "Bricolage Grotesque", sans-serif; letter-spacing: -0.06em; }
-  .s-sub { font-size: 10px; color: #5F6368; margin: 4px 0 10px; }
-  .s-goal { position: absolute; top: 14px; right: 14px; font-size: 8px; font-weight: 600; background: #F4F4F1; padding: 4px 8px; border-radius: 99px; }
-  .s-bar { height: 8px; background: #EDEDEA; border-radius: 6px; display: flex; gap: 2px; overflow: hidden; }
-  .s-bar i { display: block; height: 100%; border-radius: 6px; width: 0; transition: width 1.4s cubic-bezier(.22,1,.36,1); }
-  .s-macros { display: flex; gap: 6px; margin-bottom: 8px; }
-  .s-m { flex: 1; border-radius: 16px; padding: 10px 9px; font-size: 9px; }
-  .s-m b { display: block; font: 700 19px/1 "Bricolage Grotesque", sans-serif; letter-spacing: -0.04em; margin-top: 8px; }
-  .s-m small { font-size: 8px; opacity: .7; }
-  .s-m .t { height: 3px; border-radius: 3px; background: rgba(20,21,23,.12); margin-top: 6px; overflow: hidden; }
-  .s-m .t i { display: block; height: 100%; width: 0; background: #141517; border-radius: 3px; transition: width 1.4s cubic-bezier(.22,1,.36,1) .3s; }
-  .s-tip { background: #141517; color: #fff; border-radius: 20px; padding: 13px; font: 600 13px/1.25 "Bricolage Grotesque", sans-serif; letter-spacing: -0.02em; }
-  .s-tip span { display: inline-block; margin-top: 9px; background: #DDF47A; color: #141517; font: 600 9px Geist, sans-serif; padding: 6px 11px; border-radius: 99px; }
-  .s-nav { position: absolute; left: 14px; right: 14px; bottom: 14px; height: 50px; background: #141517; border-radius: 26px; display: flex; align-items: center; justify-content: space-around; }
-  .s-nav i { width: 16px; height: 16px; border-radius: 5px; border: 2px solid #9EA2A8; }
-  .s-nav i.on { border-color: #fff; }
-  .s-nav .scan { width: 38px; height: 38px; border-radius: 50%; border: 0; background: #DDF47A; animation: breathe 2.2s ease-in-out infinite; }
-  @keyframes breathe { 0%, 100% { box-shadow: 0 0 0 0 rgba(221,244,122,.5); } 50% { box-shadow: 0 0 0 9px rgba(221,244,122,0); } }
+  .btn:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--lime); }
+  .btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--lime); }
+  .btn svg { width: 26px; height: 26px; padding: 4px; border-radius: 50%; background: var(--lime); color: #1B1B19; }
+  .meta { font-size: 14px; color: var(--soft); margin-top: 16px; }
 
-  .float-chip {
-    position: absolute; background: var(--card); color: var(--ink); border-radius: 18px; padding: 10px 14px;
-    box-shadow: var(--shadow); font-size: 14px; font-weight: 500; display: flex; gap: 10px; align-items: center; z-index: 2;
-    opacity: 0; animation: pop .7s cubic-bezier(.34,1.56,.64,1) forwards, bob 5s ease-in-out infinite;
+  /* ---------- receipt ---------- */
+  .slot { position: relative; max-width: 360px; margin: 0 auto; width: 100%; }
+  .slot::before { content: ""; display: block; height: 14px; border-radius: 8px; background: var(--ink); position: relative; z-index: 2; }
+  .receipt-clip { overflow: hidden; margin: -6px 14px 0; padding-bottom: 34px; }
+  .receipt {
+    background: #FFFEF9; color: #1B1B19; padding: 26px 22px 28px; position: relative;
+    font: 13.5px/1.55 "JetBrains Mono", monospace; box-shadow: 0 18px 30px -18px rgba(27,27,25,.45);
+    transform: translateY(-100%); animation: print 2.2s steps(22, end) .4s forwards;
   }
-  .float-chip .dot { width: 32px; height: 32px; border-radius: 10px; display: grid; place-items: center; font-size: 16px; }
-  .float-chip small { display: block; color: var(--muted); font-size: 12px; font-weight: 400; }
-  .fc1 { top: 70px; left: -6px; animation-delay: 1.4s, 2.1s; }
-  .fc2 { bottom: 120px; right: -10px; animation-delay: 2s, 2.7s; }
-  .fc3 { top: 300px; right: -26px; animation-delay: 2.6s, 3.3s; }
-  @media (min-width: 480px) { .fc1 { left: 0; } .fc2 { right: 0; } .fc3 { right: 0; } }
-  @media (max-width: 400px) { .fc3 { display: none; } }
-  @keyframes pop { from { opacity: 0; transform: scale(.6) translateY(10px); } to { opacity: 1; transform: none; } }
-  @keyframes bob { 0%, 100% { translate: 0 0; } 50% { translate: 0 -8px; } }
-
-  /* ---------- marquee ---------- */
-  .marquee { position: relative; z-index: 1; background: var(--inverse); color: var(--on-inverse); padding: 18px 0; overflow: hidden; transform: rotate(-1.5deg); margin: 0 -20px; }
-  .marquee .track { display: flex; gap: 36px; width: max-content; animation: scroll 38s linear infinite; }
-  .marquee span { font: 700 26px "Bricolage Grotesque", sans-serif; letter-spacing: -0.02em; white-space: nowrap; display: inline-flex; align-items: center; gap: 36px; }
-  .marquee span::after { content: "✦"; color: var(--lime); font-size: 18px; }
-  @keyframes scroll { to { transform: translateX(-50%); } }
+  .receipt::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: -10px; height: 10px;
+    background: linear-gradient(-45deg, transparent 7px, #FFFEF9 0) 0 0 / 14px 10px repeat-x,
+                linear-gradient(45deg, transparent 7px, #FFFEF9 0) 0 0 / 14px 10px repeat-x;
+  }
+  @keyframes print { to { transform: translateY(0); } }
+  .receipt .c { text-align: center; }
+  .receipt .dash { border-top: 1.5px dashed #BDB6A6; margin: 12px 0; }
+  .receipt .row { display: flex; gap: 8px; }
+  .receipt .row span:first-child { flex: 1; overflow: hidden; white-space: nowrap; }
+  .receipt .row span:first-child::after { content: " ........................................"; color: #B3AC9C; }
+  .receipt .sm { font-size: 11.5px; color: #6E6A60; }
+  .receipt .tot { font-weight: 600; font-size: 15px; }
+  .stamp {
+    position: absolute; right: 14px; bottom: 22px; border: 3px solid var(--tomato); color: var(--tomato);
+    font: 600 22px/1 "JetBrains Mono", monospace; letter-spacing: .12em; padding: 8px 12px 6px; border-radius: 6px;
+    transform: rotate(-14deg) scale(2.4); opacity: 0;
+    animation: stamp .35s cubic-bezier(.2,1.6,.4,1) 2.9s forwards;
+  }
+  @keyframes stamp { to { transform: rotate(-14deg) scale(1); opacity: .88; } }
+  .note {
+    position: absolute; left: -34px; bottom: -6px; z-index: 3; font-size: 25px; line-height: 1.1; color: var(--leaf);
+    transform: rotate(-6deg); opacity: 0; animation: fade .6s ease 3.3s forwards;
+  }
+  .note svg { width: 54px; height: 40px; margin: 0 0 -4px 44px; }
+  @keyframes fade { to { opacity: 1; } }
+  @media (max-width: 560px) { .note { left: 4px; bottom: -22px; } }
 
   /* ---------- sections ---------- */
-  section { position: relative; z-index: 1; padding: 88px 0; }
-  .section-head { max-width: 640px; margin-bottom: 40px; }
-  .section-head p { font-size: 18px; margin-top: 14px; }
+  section { padding: 84px 0; }
+  .alt { background: var(--paper-2); }
+  .kicker { font-size: 28px; color: var(--soft); transform: rotate(-2deg); display: inline-block; margin-bottom: 4px; }
+  .lead { color: var(--soft); font-size: 18px; max-width: 38em; margin-top: 14px; }
 
-  .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-  @media (min-width: 760px) { .stats { grid-template-columns: repeat(4, 1fr); } }
-  .stat { background: var(--card); border-radius: 28px; padding: 24px; }
-  .stat b { display: block; font: 800 clamp(44px, 7vw, 64px)/1 "Bricolage Grotesque", sans-serif; letter-spacing: -0.05em; }
-  .stat span { color: var(--muted); font-size: 15px; }
-
-  .bento { display: grid; gap: 14px; grid-template-columns: 1fr; }
-  @media (min-width: 720px) { .bento { grid-template-columns: repeat(6, 1fr); } .f-a { grid-column: span 4; } .f-b { grid-column: span 2; } .f-c, .f-d, .f-e { grid-column: span 2; } .f-f { grid-column: span 6; } }
-  .feature {
-    border-radius: 32px; padding: 28px; color: #141517; position: relative; overflow: hidden; min-height: 220px;
-    display: flex; flex-direction: column; justify-content: flex-end; gap: 8px;
-    transition: transform .4s cubic-bezier(.22,1,.36,1), box-shadow .4s;
+  /* ---------- menu board ---------- */
+  .board {
+    margin-top: 40px; background: #2F5D3A; color: #F3EFE3; border-radius: 22px; padding: clamp(24px, 5vw, 52px);
+    box-shadow: inset 0 0 0 10px #24482D, var(--shadow);
   }
-  .feature:hover { transform: translateY(-6px) rotate(-0.4deg); box-shadow: var(--shadow); }
-  .feature p { color: #3A3D42; font-size: 16px; max-width: 42ch; }
-  .feature .ic { position: absolute; top: 24px; left: 24px; width: 52px; height: 52px; border-radius: 16px; background: rgba(255,255,255,0.6); display: grid; place-items: center; transition: transform .5s cubic-bezier(.34,1.56,.64,1); }
-  .feature:hover .ic { transform: scale(1.12) rotate(-8deg); }
-  .feature .ic svg { width: 26px; height: 26px; }
-  .feature .deco { position: absolute; right: -30px; top: -30px; width: 180px; height: 180px; border-radius: 50%; background: rgba(255,255,255,0.35); transition: transform .8s cubic-bezier(.22,1,.36,1); }
-  .feature:hover .deco { transform: scale(1.3); }
-  .f-a { background: var(--lime); } .f-b { background: var(--blue); } .f-c { background: var(--peach); }
-  .f-d { background: var(--lilac); } .f-e { background: var(--sage); } .f-f { background: var(--cream); }
-  .f-a h3 { font-size: 30px; }
-  .scanline { position: absolute; right: 28px; top: 28px; width: 120px; height: 120px; border-radius: 26px; border: 3px solid #141517; overflow: hidden; }
-  .scanline::after { content: ""; position: absolute; left: 0; right: 0; height: 3px; background: #141517; box-shadow: 0 0 14px 4px rgba(20,21,23,.35); animation: scan 2.4s ease-in-out infinite; }
-  .scanline b { position: absolute; inset: 22px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #fff 0 12%, #F5A866 13% 40%, #fff 41% 100%); }
-  @keyframes scan { 0%, 100% { top: 6%; } 50% { top: 90%; } }
-  @media (max-width: 719px) { .scanline { width: 84px; height: 84px; right: auto; left: 24px; top: 24px; } .scanline b { inset: 14px; } .f-a { padding-top: 132px; } }
+  .board h3 { font: 700 36px/1 Caveat, cursive; color: var(--lime); margin: 0 0 18px; text-align: center; }
+  .item { padding: 14px 0; border-bottom: 1px dashed rgba(243,239,227,.25); break-inside: avoid; }
+  .item .line { display: flex; align-items: baseline; gap: 10px; font-size: 20px; font-weight: 600; }
+  .item .line .dots { flex: 1; min-width: 16px; border-bottom: 2px dotted rgba(243,239,227,.45); transform: translateY(-6px); }
+  .item .line .price { font: 600 14px "JetBrains Mono", monospace; color: var(--lime); white-space: nowrap; }
+  .item p { color: rgba(243,239,227,.78); font-size: 16px; margin-top: 4px; }
+  @media (min-width: 820px) { .menu { columns: 2; column-gap: 56px; } }
+
+  /* ---------- day timeline ---------- */
+  .day { margin-top: 48px; display: grid; gap: 26px; }
+  @media (min-width: 640px) { .day { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 980px) { .day { grid-template-columns: repeat(4, 1fr); } }
+  .entry { background: var(--card); border-radius: 16px; padding: 26px 22px 22px; box-shadow: var(--shadow); position: relative; }
+  .entry .time { font: 600 13px "JetBrains Mono", monospace; color: var(--soft); display: flex; gap: 8px; align-items: center; }
+  .entry .time::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--tomato); }
+  .entry h4 { font: 400 28px/1.05 "Instrument Serif", serif; margin: 10px 0 8px; }
+  .entry p { color: var(--soft); font-size: 15.5px; }
+  .entry .tag { display: inline-block; margin-top: 12px; font: 600 12px "JetBrains Mono", monospace; background: var(--lime); color: #1B1B19; padding: 4px 8px; border-radius: 6px; }
+  .tape { position: absolute; top: -10px; left: 50%; width: 74px; height: 22px; background: rgba(221,244,122,.8); transform: translateX(-50%) rotate(-3deg); }
 
   /* ---------- install ---------- */
-  .install { display: grid; gap: 24px; }
-  @media (min-width: 920px) { .install { grid-template-columns: 0.8fr 1.2fr; gap: 56px; align-items: start; } .install .section-head { position: sticky; top: 100px; } }
-  .steps { list-style: none; padding: 0; margin: 0; position: relative; }
-  .steps::before { content: ""; position: absolute; left: 21px; top: 24px; bottom: 24px; width: 2px; background: var(--line); }
-  .steps li { position: relative; display: grid; grid-template-columns: 44px 1fr; gap: 18px; padding: 0 0 18px; }
-  .steps .n { width: 44px; height: 44px; border-radius: 50%; background: var(--card); border: 2px solid var(--line); display: grid; place-items: center; font: 700 17px "Bricolage Grotesque", sans-serif; z-index: 1; transition: background .5s, border-color .5s, transform .5s cubic-bezier(.34,1.56,.64,1); }
-  .steps li.in .n { background: var(--lime); border-color: var(--lime); color: #141517; transform: scale(1.08); }
-  .steps .body { background: var(--card); border-radius: 24px; padding: 18px 20px; }
-  .steps b { font-weight: 600; }
+  .install { display: grid; gap: 40px; }
+  @media (min-width: 900px) { .install { grid-template-columns: .85fr 1.15fr; } }
+  ol.steps { margin: 0; padding: 0; list-style: none; counter-reset: s; }
+  ol.steps li { counter-increment: s; display: grid; grid-template-columns: 48px 1fr; gap: 14px; padding: 18px 0; border-top: 1px solid var(--rule); }
+  ol.steps li:first-child { border-top: 0; padding-top: 0; }
+  ol.steps li::before { content: counter(s); font: 400 44px/1 "Instrument Serif", serif; color: var(--soft); }
+  ol.steps b { font-weight: 600; }
+  .warn { margin-top: 18px; font-size: 23px; line-height: 1.2; color: var(--leaf); transform: rotate(-1.5deg); }
 
   /* ---------- faq ---------- */
-  .faq { max-width: 760px; }
-  details { background: var(--card); border-radius: 22px; margin-bottom: 10px; overflow: hidden; }
-  summary { list-style: none; cursor: pointer; padding: 20px 22px; font-weight: 600; font-size: 17px; display: flex; justify-content: space-between; align-items: center; gap: 16px; min-height: 44px; }
+  .faq { margin-top: 30px; max-width: 760px; border-top: 1px solid var(--rule); }
+  details { border-bottom: 1px solid var(--rule); }
+  summary { list-style: none; cursor: pointer; padding: 20px 0; font-size: 19px; font-weight: 500; display: flex; justify-content: space-between; align-items: center; gap: 16px; min-height: 44px; }
   summary::-webkit-details-marker { display: none; }
-  summary::after { content: "+"; flex: none; width: 32px; height: 32px; border-radius: 50%; background: var(--bg); display: grid; place-items: center; font-size: 22px; font-weight: 400; transition: transform .35s cubic-bezier(.34,1.56,.64,1), background .3s; }
-  details[open] summary::after { transform: rotate(45deg); background: var(--lime); color: #141517; }
-  details .ans { padding: 0 22px 20px; color: var(--muted); }
+  summary::after { content: "+"; font: 400 34px/0.8 "Instrument Serif", serif; transition: transform .25s; }
+  details[open] summary::after { transform: rotate(45deg); }
+  details p { color: var(--soft); padding: 0 0 22px; max-width: 44em; }
 
-  /* ---------- credit ---------- */
-  .credit { position: relative; border-radius: 36px; padding: 3px; background: linear-gradient(120deg, var(--lime), var(--blue-bar), var(--peach-bar), var(--lime)); background-size: 300% 300%; animation: hue 8s ease infinite; }
-  @keyframes hue { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
-  .credit-in { background: #141517; color: #fff; border-radius: 33px; padding: clamp(28px, 6vw, 56px); display: grid; gap: 28px; align-items: center; }
-  @media (min-width: 760px) { .credit-in { grid-template-columns: 1fr auto; } }
-  .credit h2 { color: #fff; }
-  .credit p { color: #B9BCC1; margin-top: 10px; font-size: 17px; }
+  /* ---------- sign-off letter ---------- */
+  .letter { background-color: var(--card); border-radius: 6px; padding: clamp(28px, 6vw, 60px); box-shadow: var(--shadow); max-width: 760px; margin: 0 auto;
+    background-image: repeating-linear-gradient(transparent 0 33px, var(--rule) 33px 34px); background-position: 0 30px; }
+  .letter p.hand { font-size: 28px; font-weight: 500; line-height: 34px; }
+  .letter .sig { font-size: 42px; font-weight: 700; margin-top: 10px; color: var(--leaf); }
+  .letter .credit { font-size: 14px; color: var(--soft); margin-top: 18px; background: var(--card); display: inline-block; }
+  .letter .btn { margin-top: 24px; }
 
-  footer { position: relative; z-index: 1; padding: 32px 0 120px; color: var(--muted); font-size: 14px; }
-  footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
+  footer { padding: 40px 0 120px; font-size: 14px; color: var(--soft); }
+  footer .wrap { display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between; }
 
-  /* ---------- sticky mobile download ---------- */
-  .dock { position: fixed; left: 16px; right: 16px; bottom: 16px; z-index: 60; display: flex; align-items: center; gap: 12px; padding: 10px 10px 10px 14px; border-radius: 26px; background: var(--inverse); color: #fff; box-shadow: 0 20px 50px -10px rgba(0,0,0,.5); transform: translateY(140%); transition: transform .5s cubic-bezier(.22,1,.36,1); }
+  /* ---------- sticky download on phones ---------- */
+  .dock { position: fixed; left: 12px; right: 12px; bottom: 12px; z-index: 60; display: flex; align-items: center; gap: 12px; padding: 10px 10px 10px 12px;
+    background: #1B1B19; color: #F6F1E7; border-radius: 18px; transform: translateY(150%); transition: transform .4s cubic-bezier(.2,.9,.3,1); }
   .dock.show { transform: none; }
-  .dock img { width: 40px; height: 40px; border-radius: 12px; }
-  .dock div { flex: 1; min-width: 0; line-height: 1.25; }
-  .dock small { color: #B9BCC1; font-size: 13px; }
-  .dock .btn-lime { min-height: 46px; padding: 0 18px; font-size: 15px; box-shadow: none; }
-  @media (min-width: 760px) { .dock { left: 50%; right: auto; width: 440px; margin-left: -220px; } }
+  .dock img { width: 40px; height: 40px; border-radius: 11px; }
+  .dock div { flex: 1; line-height: 1.25; font-size: 15px; }
+  .dock small { opacity: .7; font-size: 13px; }
+  .dock a { background: var(--lime); color: #1B1B19; text-decoration: none; font-weight: 600; padding: 0 18px; min-height: 46px; display: inline-flex; align-items: center; border-radius: 12px; }
+  @media (min-width: 760px) { .dock { display: none; } }
 
-  /* ---------- scroll reveal ---------- */
-  .reveal { opacity: 0; transform: translateY(36px) scale(0.98); transition: opacity .8s cubic-bezier(.22,1,.36,1), transform .8s cubic-bezier(.22,1,.36,1); transition-delay: var(--d, 0s); }
-  .reveal.in { opacity: 1; transform: none; }
-  .hero .reveal { transition-duration: 1s; }
+  /* reveal on scroll */
+  .r { opacity: 0; transform: translateY(18px); transition: opacity .7s ease, transform .7s ease; }
+  .r.in { opacity: 1; transform: none; }
+  .entry.r.in:nth-child(odd) { transform: rotate(-.8deg); }
+  .entry.r.in:nth-child(even) { transform: rotate(.8deg); }
 
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; transition: none !important; }
-    .reveal { opacity: 1; transform: none; }
-    .hl::before { transform: scaleX(1); }
-    .float-chip { opacity: 1; }
-    .rotator span { opacity: 0; } .rotator span:first-child { opacity: 1; }
+    .receipt { transform: none; } .stamp { opacity: .88; transform: rotate(-14deg); } .note { opacity: 1; }
+    .r { opacity: 1; transform: none; } mark::before { transform: rotate(-1.2deg) scaleX(1); }
   }
 </style>
 </head>
 <body>
-<div class="blobs" aria-hidden="true"><div class="blob a"></div><div class="blob b"></div><div class="blob c"></div></div>
 
-<nav class="nav" id="nav">
+<header class="top">
   <div class="wrap">
-    <a class="brand" href="#top"><img src="icon.png" alt="">FitTrack</a>
-    <a class="btn btn-dark nav-cta" href="#download">Get the app</a>
-  </div>
-</nav>
-
-<header class="hero" id="top">
-  <div class="wrap">
-    <div>
-      <div class="chips reveal">
-        <span class="chip"><i style="background:var(--lime-bar)"></i>Free</span>
-        <span class="chip"><i style="background:var(--blue-bar)"></i>Filipino foods</span>
-        <span class="chip"><i style="background:var(--peach-bar)"></i>Smartwatch sync</span>
-      </div>
-      <h1 class="reveal" style="--d:.08s">Snap your food.<br>Hit your <span class="hl">protein.</span></h1>
-      <p class="lede reveal" style="--d:.16s">One photo and FitTrack knows your
-        <span class="rotator"><span>tapsilog</span><span>adobo</span><span>sinigang</span><span>pancit</span></span>,
-        counts the calories, and tells you what to eat next on a ₱50 budget.</p>
-      <div class="reveal" style="--d:.24s" id="download">
-        <a class="btn btn-lime" href="https://github.com/canedoalbert6-droid/fittrack/releases/latest/download/FitTrack.apk" download>
-          <svg class="bounce" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-5-5m5 5 5-5M5 21h14"/></svg>
-          Download for Android
-        </a>
-        <p class="fine">29 MB · Android 8 or newer · not available for iPhone<br>
-          Older phone? Get the <a href="https://github.com/canedoalbert6-droid/fittrack/releases/latest/download/FitTrack-older-phones.apk" download>version for older phones</a> (26 MB).</p>
-      </div>
-    </div>
-
-    <div class="stage reveal" style="--d:.2s" aria-hidden="true">
-      <div class="phone" id="phone">
-        <div class="screen">
-          <div class="notch"></div>
-          <div class="glow"></div>
-          <div class="s-head">
-            <div><div class="s-date">Thursday, 12 Nov</div><div class="s-hi">Good morning</div></div>
-            <div class="s-av">A</div>
-          </div>
-          <div class="s-week">
-            <div>Mon<b></b></div><div>Tue<b></b></div><div>Wed<b></b></div><div class="today">Thu<br>12</div><div>Fri</div><div>Sat</div><div>Sun</div>
-          </div>
-          <div class="s-card">
-            <div class="s-goal">Goal 2,050</div>
-            <div class="s-big" data-count="1240">0</div>
-            <div class="s-sub">kcal left for today</div>
-            <div class="s-bar"><i style="background:#B6DA2E" data-w="18"></i><i style="background:#7DBBF2" data-w="15"></i><i style="background:#F5A866" data-w="7"></i></div>
-          </div>
-          <div class="s-macros">
-            <div class="s-m" style="background:linear-gradient(135deg,#ECF9B7,#DDF47A)">Protein<b data-count="78" data-suffix="g">0g</b><small>of 120g</small><div class="t"><i data-w="65"></i></div></div>
-            <div class="s-m" style="background:linear-gradient(135deg,#DDEEFF,#C9E4FF)">Carbs<b data-count="96" data-suffix="g">0g</b><small>of 230g</small><div class="t"><i data-w="42"></i></div></div>
-            <div class="s-m" style="background:linear-gradient(135deg,#FFE7CF,#FFD9B3)">Fat<b data-count="31" data-suffix="g">0g</b><small>of 68g</small><div class="t"><i data-w="46"></i></div></div>
-          </div>
-          <div class="s-tip">You're 42 g of protein away. A tuna omelette at lunch gets you there.<br><span>Meal ideas</span></div>
-          <div class="s-nav"><i class="on"></i><i></i><i class="scan"></i><i></i><i></i></div>
-        </div>
-      </div>
-      <div class="float-chip fc1"><span class="dot" style="background:var(--lime)">📸</span><div>Tapsilog logged<small>612 kcal · 34 g protein</small></div></div>
-      <div class="float-chip fc2"><span class="dot" style="background:var(--blue)">⌚</span><div>+180 kcal<small>from your watch</small></div></div>
-      <div class="float-chip fc3"><span class="dot" style="background:var(--peach)">🥚</span><div>₱25 snack<small>2 boiled eggs</small></div></div>
-    </div>
+    <a class="brand" href="#"><img src="icon.png" alt="">FitTrack</a>
+    <a class="dl" href="#get">Download</a>
   </div>
 </header>
 
-<div class="marquee" aria-hidden="true">
-  <div class="track">
-    <span>Adobo</span><span>Sinigang</span><span>Tapsilog</span><span>Pancit canton</span><span>Tinola</span><span>Ginisang monggo</span><span>Kare-kare</span><span>Bangus</span><span>Arroz caldo</span><span>Lumpia</span><span>Taho</span><span>Pandesal</span>
-    <span>Adobo</span><span>Sinigang</span><span>Tapsilog</span><span>Pancit canton</span><span>Tinola</span><span>Ginisang monggo</span><span>Kare-kare</span><span>Bangus</span><span>Arroz caldo</span><span>Lumpia</span><span>Taho</span><span>Pandesal</span>
+<main>
+<section class="hero">
+  <div class="wrap">
+    <div class="r">
+      <span class="hi hand">hi, I'm Albert 👋</span>
+      <h1>A calorie app that actually knows what <mark><em>tapsilog</em></mark> is.</h1>
+      <p class="intro">Most calorie apps think rice is "white rice, 1 cup, USDA". I wanted one that gets
+        <b>silog, adobo and pancit</b>, tells me how much protein I'm still missing, and suggests
+        something I can actually buy at the <b>7-Eleven downstairs for ₱25</b>. So I made it.</p>
+      <div id="get">
+        <a class="btn" href="https://github.com/canedoalbert6-droid/fittrack/releases/latest/download/FitTrack.apk" download>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-5-5m5 5 5-5M5 21h14"/></svg>
+          Download for Android
+        </a>
+        <p class="meta">Free · 29 MB · Android 8 or newer · not on iPhone (sorry!)<br>
+          Older phone? Try the <a href="https://github.com/canedoalbert6-droid/fittrack/releases/latest/download/FitTrack-older-phones.apk" download>version for older phones</a>.</p>
+      </div>
+    </div>
+
+    <div class="slot" role="img" aria-label="Example: a scanned tapsilog plate, 610 kcal and 37 g protein, stamped Logged">
+      <div class="receipt-clip">
+        <div class="receipt" aria-hidden="true">
+          <div class="c"><b>FITTRACK</b><br><span class="sm">photo scan · Thu 12 Nov · 12:41</span></div>
+          <div class="dash"></div>
+          <div class="row"><span>TAPSILOG</span><span>1 plate</span></div>
+          <div class="row sm"><span>&nbsp;&nbsp;tapa, 100 g</span><span>220</span></div>
+          <div class="row sm"><span>&nbsp;&nbsp;sinangag, 1 cup</span><span>300</span></div>
+          <div class="row sm"><span>&nbsp;&nbsp;itlog, fried</span><span>90</span></div>
+          <div class="dash"></div>
+          <div class="row tot"><span>TOTAL kcal</span><span>610</span></div>
+          <div class="row"><span>protein</span><span>37 g</span></div>
+          <div class="row"><span>carbs</span><span>66 g</span></div>
+          <div class="row"><span>fat</span><span>22 g</span></div>
+          <div class="dash"></div>
+          <div class="row"><span>LEFT TODAY</span><span>1,240 kcal</span></div>
+          <div class="row"><span>protein to go</span><span>42 g</span></div>
+          <div class="dash"></div>
+          <div class="c sm" style="text-align:left">salamat po!<br>kain ulit :)</div>
+          <div class="stamp">LOGGED</div>
+        </div>
+      </div>
+      <div class="note hand" aria-hidden="true">
+        <svg viewBox="0 0 54 40" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M50 4C34 6 18 14 10 34M10 34l-6-9M10 34l10-4"/></svg>
+        one photo. that's it.
+      </div>
+    </div>
   </div>
-</div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <div class="r">
+      <span class="kicker hand">ano'ng meron?</span>
+      <h2>Today's <em>menu</em></h2>
+      <p class="lead">Everything in the app, carinderia style. No ads, no subscription, no account.</p>
+    </div>
+    <div class="board r">
+      <h3>~ FitTrack Menu ~</h3>
+      <div class="menu">
+        <div class="item"><div class="line">Snap your plate<span class="dots"></span><span class="price">25 scans/day</span></div>
+          <p>Take a photo, get calories, protein, carbs and fat. Fix any amount before saving.</p></div>
+        <div class="item"><div class="line">Filipino foods<span class="dots"></span><span class="price">68 dishes</span></div>
+          <p>With real portions: "1 cup rice", "silog plate", "1 extra rice", "2 pieces".</p></div>
+        <div class="item"><div class="line">Budget meal ideas<span class="dots"></span><span class="price">from ₱10</span></div>
+          <p>Short on protein? Recipes from what's in your ref, or what to grab at 7-Eleven, the sari-sari store or the taho man.</p></div>
+        <div class="item"><div class="line">Smartwatch sync<span class="dots"></span><span class="price">Health Connect</span></div>
+          <p>Steps, active calories, heart rate and sleep from Mi Fitness, Samsung Health, Fitbit and others.</p></div>
+        <div class="item"><div class="line">A goal that learns<span class="dots"></span><span class="price">after 2 weeks</span></div>
+          <p>Compares what you ate with how your weight actually moved, and adjusts.</p></div>
+        <div class="item" style="border-bottom:0"><div class="line">Reminders<span class="dots"></span><span class="price">optional</span></div>
+          <p>Morning weigh-in, "log your lunch?", and an evening protein nudge.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <section>
   <div class="wrap">
-    <div class="stats">
-      <div class="stat reveal"><b data-count="68">0</b><span>Filipino &amp; everyday foods built in</span></div>
-      <div class="stat reveal" style="--d:.08s"><b data-count="14">0</b><span>budget recipes from your kitchen</span></div>
-      <div class="stat reveal" style="--d:.16s"><b data-count="25">0</b><span>free AI photo scans a day</span></div>
-      <div class="stat reveal" style="--d:.24s"><b>₱0</b><span>no ads, no subscription</span></div>
+    <div class="r">
+      <span class="kicker hand">isang araw lang</span>
+      <h2>A normal day <em>with it</em></h2>
+    </div>
+    <div class="day">
+      <div class="entry r"><span class="tape"></span><div class="time">7:05 AM</div><h4>Step on the scale</h4>
+        <p>It tracks your 7-day average, so last night's salty dinner doesn't ruin your morning.</p><span class="tag">68.9 kg avg</span></div>
+      <div class="entry r" style="transition-delay:.08s"><span class="tape"></span><div class="time">12:41 PM</div><h4>Carinderia lunch</h4>
+        <p>Snap the tapsilog. Done before your food gets cold.</p><span class="tag">610 kcal · 37 g protein</span></div>
+      <div class="entry r" style="transition-delay:.16s"><span class="tape"></span><div class="time">4:30 PM</div><h4>"42 g protein short"</h4>
+        <p>It suggests boiled eggs and a can of tuna from the store across the street.</p><span class="tag">about ₱60</span></div>
+      <div class="entry r" style="transition-delay:.24s"><span class="tape"></span><div class="time">9:00 PM</div><h4>Your watch chips in</h4>
+        <p>You walked more than usual, so the extra burn goes into today's budget.</p><span class="tag">+180 kcal</span></div>
     </div>
   </div>
 </section>
 
-<section style="padding-top:0">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <div class="eyebrow">What it does</div>
-      <h2>Everything you need.<br>Nothing you don't.</h2>
-    </div>
-    <div class="bento">
-      <div class="feature f-a reveal">
-        <div class="deco"></div>
-        <div class="scanline"><b></b></div>
-        <h3>AI food scanner</h3>
-        <p>Take a photo of your plate and get calories, protein, carbs and fat in seconds. Fix any amount with one tap before saving.</p>
-      </div>
-      <div class="feature f-b reveal" style="--d:.08s">
-        <div class="deco"></div>
-        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#141517" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg></div>
-        <h3>Filipino portions</h3>
-        <p>"1 cup rice", "silog plate", "1 extra rice". Real portions, one tap.</p>
-      </div>
-      <div class="feature f-c reveal">
-        <div class="deco"></div>
-        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#141517" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg></div>
-        <h3>Smart calorie goal</h3>
-        <p>Learns your real maintenance calories from what you eat and how your weight moves.</p>
-      </div>
-      <div class="feature f-d reveal" style="--d:.08s">
-        <div class="deco"></div>
-        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#141517" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="6" width="10" height="12" rx="3"/><path d="M9 6l1-3h4l1 3M9 18l1 3h4l1-3M12 10v2l1.5 1"/></svg></div>
-        <h3>Smartwatch sync</h3>
-        <p>Steps, active calories, heart rate and sleep through Health Connect.</p>
-      </div>
-      <div class="feature f-e reveal" style="--d:.16s">
-        <div class="deco"></div>
-        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#141517" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></div>
-        <h3>Gentle reminders</h3>
-        <p>Weigh-in, meal and evening protein nudges. All optional.</p>
-      </div>
-      <div class="feature f-f reveal">
-        <div class="deco"></div>
-        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#141517" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l1.5-5h15L21 9"/><path d="M4 9v11h16V9"/><path d="M3 9h18M9 20v-6h6v6"/></svg></div>
-        <h3>Budget meal ideas</h3>
-        <p>Short on protein? Get cheap recipes from what's already in your fridge, or what to grab at 7-Eleven, the sari-sari store or the taho cart, with prices and a "find nearby" map button.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section style="padding-top:0">
+<section class="alt">
   <div class="wrap install">
-    <div class="section-head reveal">
-      <div class="eyebrow">Install in a minute</div>
-      <h2>Not on the Play Store yet.</h2>
-      <p class="muted">So Android asks a few extra questions. That's normal for any app you download from a website.</p>
-      <div style="margin-top:28px">
-        <a class="btn btn-lime" href="https://github.com/canedoalbert6-droid/fittrack/releases/latest/download/FitTrack.apk" download>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-5-5m5 5 5-5M5 21h14"/></svg>
-          Download
-        </a>
-      </div>
+    <div class="r">
+      <span class="kicker hand">2 minutes lang</span>
+      <h2>How to <em>install</em></h2>
+      <p class="lead">It's not on the Play Store yet, so Android double-checks with you. Totally normal.</p>
+      <p class="warn hand">↳ Play Protect will warn you. It does that for every app outside the Play Store.</p>
     </div>
-    <ol class="steps">
-      <li class="reveal"><span class="n">1</span><div class="body"><b>Open this page on your Android phone</b> in Chrome and tap <b>Download for Android</b>. If Chrome says the file might be harmful, tap <b>Download anyway</b>.</div></li>
-      <li class="reveal"><span class="n">2</span><div class="body"><b>Open the downloaded file.</b> Tap the notification, or go to <b>Files → Downloads → FitTrack.apk</b>.</div></li>
-      <li class="reveal"><span class="n">3</span><div class="body"><b>Allow installing.</b> If your phone says it's not allowed to install unknown apps, tap <b>Settings</b>, turn on <b>Allow from this source</b>, then go back.</div></li>
-      <li class="reveal"><span class="n">4</span><div class="body"><b>Tap Install.</b> If Google Play Protect warns you, tap <b>More details → Install anyway</b>. It does this for every app that isn't from the Play Store.</div></li>
-      <li class="reveal"><span class="n">5</span><div class="body"><b>Open FitTrack</b>, fill in your age, height, weight and goal, and snap your first meal.</div></li>
+    <ol class="steps r">
+      <li><div><b>Open this page on your Android phone</b> and tap <b>Download for Android</b>. If Chrome asks, tap <b>Download anyway</b>.</div></li>
+      <li><div><b>Open the file</b> from the notification, or <b>Files → Downloads → FitTrack.apk</b>.</div></li>
+      <li><div>If it says it can't install unknown apps, tap <b>Settings</b>, turn on <b>Allow from this source</b>, and go back.</div></li>
+      <li><div>Tap <b>Install</b>. If Play Protect shows a warning, tap <b>More details → Install anyway</b>.</div></li>
+      <li><div><b>Open FitTrack</b>, enter your age, height, weight and goal, and snap your next meal.</div></li>
     </ol>
   </div>
 </section>
 
-<section style="padding-top:0">
+<section>
   <div class="wrap">
-    <div class="section-head reveal">
-      <div class="eyebrow">Questions</div>
-      <h2>Good to know</h2>
-    </div>
-    <div class="faq">
-      <details class="reveal"><summary>Is it free?</summary><div class="ans">Yes. The food scanner allows 25 photo scans per phone per day so the free AI service stays free for everyone.</div></details>
-      <details class="reveal"><summary>Where is my data stored?</summary><div class="ans">On your phone only: your profile, weight, food log and watch data never leave it. When you scan a meal, that photo is sent to Google's Gemini AI to read the food. FitTrack doesn't keep it, but Google's free AI service may store it, so don't scan anything private. Uninstalling the app deletes everything.</div></details>
-      <details class="reveal"><summary>How do I connect my smartwatch?</summary><div class="ans">Install <b>Health Connect</b> from the Play Store (built in on Android 14+). In your watch app (Mi Fitness, Samsung Health, Fitbit…) turn on syncing to Health Connect. Then in FitTrack go to Settings → Smartwatch → Connect and allow the permissions.</div></details>
-      <details class="reveal"><summary>How do I update?</summary><div class="ans">Download the new version from this page and install it over the old one. Your data stays.</div></details>
-      <details class="reveal"><summary>Does it work on iPhone?</summary><div class="ans">Not yet. iPhones can only install apps from the App Store.</div></details>
-      <details class="reveal"><summary>Is this medical advice?</summary><div class="ans">No. Calorie and nutrient numbers are estimates. Talk to a doctor or dietitian about health conditions or big diet changes.</div></details>
+    <div class="r"><span class="kicker hand">mga tanong</span><h2>Questions</h2></div>
+    <div class="faq r">
+      <details><summary>Is it really free?</summary><p>Yes. No ads, no subscription, no account. The photo scanner has a limit of 25 scans per phone per day so the free AI behind it stays free for everyone.</p></details>
+      <details><summary>Where does my data go?</summary><p>It stays on your phone: profile, weight, food log and watch data. When you scan a meal, the photo goes to Google's Gemini AI to read the food. FitTrack doesn't keep it, but Google's free AI service may, so don't scan anything private. Uninstalling deletes everything.</p></details>
+      <details><summary>How do I connect my watch?</summary><p>Get <b>Health Connect</b> from the Play Store (built in on Android 14+). In your watch app (Mi Fitness, Samsung Health, Fitbit…) turn on syncing to Health Connect. Then in FitTrack: Settings → Smartwatch → Connect.</p></details>
+      <details><summary>How do I update?</summary><p>From version 1.0.2, the app tells you when there's a new version and downloads it with one tap. Install it over the old one; your data stays.</p></details>
+      <details><summary>iPhone?</summary><p>Not yet. iPhones can only install apps from the App Store.</p></details>
+      <details><summary>Is this medical advice?</summary><p>No. The numbers are estimates. Talk to a doctor or dietitian about health conditions or big diet changes.</p></details>
     </div>
   </div>
 </section>
 
-<section style="padding-top:0">
+<section style="padding-top:20px">
   <div class="wrap">
-    <div class="credit reveal">
-      <div class="credit-in">
-        <div>
-          <h2>Made by Albert Jhun Cañedo</h2>
-          <p>Design and development. Found a bug or have an idea? Message me.</p>
-        </div>
-        <a class="btn btn-lime" href="https://github.com/canedoalbert6-droid/fittrack/releases/latest/download/FitTrack.apk" download>Get FitTrack</a>
-      </div>
+    <div class="letter r">
+      <p class="hand">I built FitTrack for myself and my friends. If something breaks, looks weird, or you want a dish added, just message me. I read everything.</p>
+      <p class="hand sig">— Albert</p>
+      <p class="credit">Made by Albert Jhun Cañedo · design and development</p><br>
+      <a class="btn" href="https://github.com/canedoalbert6-droid/fittrack/releases/latest/download/FitTrack.apk" download>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-5-5m5 5 5-5M5 21h14"/></svg>
+        Get FitTrack
+      </a>
     </div>
   </div>
 </section>
+</main>
 
-<footer><div class="wrap"><span>FitTrack v1.0.2 · Android</span><span>Made with ♥ in the Philippines</span></div></footer>
+<footer><div class="wrap"><span>FitTrack v1.0.2 · Android</span><span>Gawa sa Pilipinas</span></div></footer>
 
 <div class="dock" id="dock">
   <img src="icon.png" alt="">
   <div><b>FitTrack</b><br><small>Free · Android · 29 MB</small></div>
-  <a class="btn btn-lime" href="https://github.com/canedoalbert6-droid/fittrack/releases/latest/download/FitTrack.apk" download>Download</a>
+  <a href="https://github.com/canedoalbert6-droid/fittrack/releases/latest/download/FitTrack.apk" download>Download</a>
 </div>
 
 <script>
 (() => {
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const io = new IntersectionObserver((es) => es.forEach((e) => {
+    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+  }), { threshold: 0.12 });
+  document.querySelectorAll('.r').forEach((el) => io.observe(el));
 
-  // Count numbers up to data-count.
-  const countUp = (el) => {
-    const end = +el.dataset.count, from = +(el.dataset.from || 0), suffix = el.dataset.suffix || '';
-    el.dataset.from = end;
-    const fmt = (v) => Math.round(v).toLocaleString('en-US') + suffix;
-    if (reduce) { el.textContent = fmt(end); return; }
-    const t0 = performance.now(), dur = 1400;
-    const step = (t) => {
-      const p = Math.max(0, Math.min(1, (t - t0) / dur)), e = 1 - Math.pow(1 - p, 3);
-      el.textContent = fmt(from + (end - from) * e);
-      if (p < 1) requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
-  };
-  const fill = (root) => root.querySelectorAll('[data-w]').forEach((i) => { i.style.width = i.dataset.w + '%'; });
-
-  // Reveal on scroll.
-  const io = new IntersectionObserver((entries) => {
-    for (const e of entries) {
-      if (!e.isIntersecting) continue;
-      e.target.classList.add('in');
-      e.target.querySelectorAll('[data-count]').forEach(countUp);
-      fill(e.target);
-      io.unobserve(e.target);
-    }
-  }, { threshold: 0.18, rootMargin: '0px 0px -40px 0px' });
-  document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
-
-  // Sticky nav shadow + mobile download dock after the hero.
-  const nav = document.getElementById('nav'), dock = document.getElementById('dock');
-  const hero = document.getElementById('download');
-  const onScroll = () => {
-    nav.classList.toggle('scrolled', scrollY > 10);
-    const r = hero.getBoundingClientRect();
-    dock.classList.toggle('show', r.bottom < 0 && innerHeight + scrollY < document.body.scrollHeight - 80);
-  };
+  const get = document.getElementById('get'), dock = document.getElementById('dock');
+  const onScroll = () => dock.classList.toggle('show',
+    get.getBoundingClientRect().bottom < 0 && innerHeight + scrollY < document.body.scrollHeight - 120);
   addEventListener('scroll', onScroll, { passive: true });
   onScroll();
-
-  // Phone tilts toward the pointer (desktop).
-  const phone = document.getElementById('phone');
-  if (!reduce && matchMedia('(pointer: fine)').matches) {
-    const stage = phone.parentElement;
-    stage.addEventListener('pointermove', (e) => {
-      const r = stage.getBoundingClientRect();
-      const x = (e.clientX - r.left) / r.width - 0.5, y = (e.clientY - r.top) / r.height - 0.5;
-      phone.style.animation = 'none';
-      phone.style.transition = 'transform .2s ease-out';
-      phone.style.transform = `perspective(900px) rotateY(${x * 14}deg) rotateX(${-y * 10}deg)`;
-    });
-    stage.addEventListener('pointerleave', () => {
-      phone.style.transition = 'transform .6s ease';
-      phone.style.transform = '';
-      setTimeout(() => { phone.style.animation = ''; }, 600);
-    });
-  }
-
-  // Keep the phone screen's numbers alive: re-count every few seconds.
-  if (!reduce) {
-    const big = phone.querySelector('.s-big');
-    let left = 1240;
-    setInterval(() => {
-      left = left > 700 ? left - 128 : 1240;
-      big.dataset.count = left;
-      countUp(big);
-    }, 4500);
-  }
 })();
 </script>
 </body>
