@@ -1,14 +1,14 @@
 {
-  "build": 2004,
-  "version": "1.0.3",
+  "build": 2005,
+  "version": "1.0.4",
   "notes": [
-    "Fixed the Activity screen title squeezing into one letter per line",
-    "Your watch now shows a proper name instead of a code",
-    "Update popup now works on every phone"
+    "Infinix watch support through the My Health app",
+    "Pick your watch brand for step-by-step setup",
+    "One-tap button to open your watch app"
   ],
   "apk": {
-    "arm64": "https://github.com/canedoalbert6-droid/fittrack/releases/download/v1.0.3/FitTrack.apk",
-    "arm": "https://github.com/canedoalbert6-droid/fittrack/releases/download/v1.0.3/FitTrack-older-phones.apk"
+    "arm64": "https://github.com/canedoalbert6-droid/fittrack/releases/download/v1.0.4/FitTrack.apk",
+    "arm": "https://github.com/canedoalbert6-droid/fittrack/releases/download/v1.0.4/FitTrack-older-phones.apk"
   },
   "page": "https://canedoalbert6-droid.github.io/fittrack/"
 }
