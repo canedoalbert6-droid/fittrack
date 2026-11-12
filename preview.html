@@ -14,7 +14,7 @@
 <link rel="apple-touch-icon" href="icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Geist:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Albert+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
   /* Same tokens as the app (TodayStyle) */
   :root {
@@ -36,12 +36,12 @@
 
   * { box-sizing: border-box; }
   html { -webkit-text-size-adjust: 100%; overflow-x: clip; scroll-behavior: smooth; }
-  body { margin: 0; background: var(--bg); color: var(--ink); overflow-x: clip; font: 17px/1.6 Geist, system-ui, sans-serif; }
+  body { margin: 0; background: var(--bg); color: var(--ink); overflow-x: clip; font: 17px/1.6 "Albert Sans", system-ui, sans-serif; }
   a { color: inherit; }
   p { margin: 0; }
   .wrap { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
-  h1, h2, h3 { font-family: "Bricolage Grotesque", Geist, sans-serif; margin: 0; letter-spacing: -0.03em; }
-  h2 { font-size: clamp(34px, 5.2vw, 50px); line-height: 1.05; }
+  h1, h2, h3 { font-family: "Young Serif", Georgia, serif; font-weight: 400; margin: 0; letter-spacing: -0.01em; }
+  h2 { font-size: clamp(32px, 4.8vw, 46px); line-height: 1.1; }
   .label { font-size: 14px; font-weight: 600; color: var(--muted); margin-bottom: 10px; }
   .lead { color: var(--muted); font-size: 18px; max-width: 36em; margin-top: 14px; }
 
@@ -67,7 +67,8 @@
   @media (min-width: 900px) { .hero .wrap { grid-template-columns: 1.1fr .9fr; } }
   .pills { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
   .pill { font-size: 14px; font-weight: 500; padding: 6px 12px; border-radius: 999px; background: var(--card); border: 1px solid var(--line); }
-  h1 { font-size: clamp(46px, 7.6vw, 80px); line-height: 1; margin-bottom: 22px; }
+  h1 { font-size: clamp(38px, 10.4vw, 62px); line-height: 1.08; margin-bottom: 22px; }
+  h1 .ln { white-space: nowrap; }
   h1 .hl { background: linear-gradient(transparent 58%, var(--lime) 58% 92%, transparent 92%); padding: 0 .06em; }
   @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) h1 .hl { background: none; color: var(--lime); } }
   :root[data-theme="dark"] h1 .hl { background: none; color: var(--lime); }
@@ -104,7 +105,7 @@
   .menu { margin-top: 40px; background: var(--card); border-radius: 28px; padding: clamp(20px, 4.5vw, 44px); box-shadow: var(--shadow); }
   @media (min-width: 820px) { .menu { columns: 2; column-gap: 56px; } }
   .item { padding: 16px 0; border-bottom: 1px solid var(--line); break-inside: avoid; }
-  .item .line { display: flex; align-items: baseline; gap: 10px; font: 600 20px/1.3 "Bricolage Grotesque", sans-serif; letter-spacing: -0.02em; }
+  .item .line { display: flex; align-items: baseline; gap: 10px; font: 400 20px/1.3 "Young Serif", Georgia, serif; letter-spacing: 0; }
   .item .dots { flex: 1; min-width: 16px; border-bottom: 2px dotted var(--line); transform: translateY(-5px); }
   .item .price { font: 600 13px "JetBrains Mono", monospace; background: var(--lime); color: #141517; padding: 3px 8px; border-radius: 6px; white-space: nowrap; letter-spacing: 0; }
   .item p { color: var(--muted); font-size: 16px; margin-top: 4px; }
@@ -127,7 +128,7 @@
   ol.steps { margin: 0; padding: 0; list-style: none; counter-reset: s; background: var(--card); border-radius: 28px; padding: 8px clamp(18px, 4vw, 32px); box-shadow: var(--shadow); }
   ol.steps li { counter-increment: s; display: grid; grid-template-columns: 40px 1fr; gap: 14px; padding: 18px 0; border-top: 1px solid var(--line); }
   ol.steps li:first-child { border-top: 0; }
-  ol.steps li::before { content: counter(s); width: 32px; height: 32px; border-radius: 50%; background: var(--lime); color: #141517; display: grid; place-items: center; font: 700 15px "Bricolage Grotesque", sans-serif; }
+  ol.steps li::before { content: counter(s); width: 32px; height: 32px; border-radius: 50%; background: var(--lime); color: #141517; display: grid; place-items: center; font: 400 15px "Young Serif", Georgia, serif; }
   ol.steps b { font-weight: 600; }
   .note { margin-top: 18px; background: var(--card); border-left: 4px solid var(--lime-bar); border-radius: 12px; padding: 14px 16px; font-size: 15px; color: var(--muted); }
 
@@ -183,7 +184,7 @@
   <div class="wrap">
     <div class="r">
       <div class="pills"><span class="pill">Free</span><span class="pill">Android</span><span class="pill">Filipino foods built in</span></div>
-      <h1>Snap your plate.<br>Get the <span class="hl">numbers.</span></h1>
+      <h1><span class="ln">Snap your plate.</span><br><span class="ln">Get the <span class="hl">numbers.</span></span></h1>
       <p class="intro">FitTrack reads your meal from one photo, from tapsilog to tinola, and tells you what you still need today: calories, protein, and a cheap way to close the gap.</p>
       <div id="get">
         <a class="btn" href="https://github.com/canedoalbert6-droid/fittrack/releases/latest/download/FitTrack.apk" download>
