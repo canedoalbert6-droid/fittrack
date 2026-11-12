@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FitTrack</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="Snap your plate and get calories, protein, carbs and fat in seconds. Free Android app with Filipino foods built in.">
+<meta property="og:title" content="FitTrack: snap your plate, get the numbers">
+<meta property="og:description" content="Free Android calorie tracker with an AI food scanner, Filipino foods and smartwatch sync.">
+<meta property="og:image" content="icon.png">
+<meta name="theme-color" content="#F4F4F1">
+<link rel="icon" href="icon.png">
+<link rel="apple-touch-icon" href="icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Geist:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  /* Same tokens as the app (TodayStyle) */
+  :root {
+    --bg: #F4F4F1; --bg-2: #EBEBE6; --card: #FFFFFF; --ink: #141517; --muted: #5F6368;
+    --line: #E3E3DE; --lime: #DDF47A; --lime-bar: #B6DA2E; --blue: #C9E4FF; --peach: #FFD9B3;
+    --red: #E5482A; --inverse: #141517; --on-inverse: #FFFFFF;
+    --shadow: 0 1px 2px rgba(20,21,23,.05), 0 16px 40px -22px rgba(20,21,23,.35);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0F1012; --bg-2: #16171A; --card: #1C1D20; --ink: #F2F2EE; --muted: #9EA2A8;
+      --line: #2A2C30; --inverse: #26282C; --shadow: 0 16px 40px -22px rgba(0,0,0,.8);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0F1012; --bg-2: #16171A; --card: #1C1D20; --ink: #F2F2EE; --muted: #9EA2A8;
+    --line: #2A2C30; --inverse: #26282C; --shadow: 0 16px 40px -22px rgba(0,0,0,.8);
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; overflow-x: clip; scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--ink); overflow-x: clip; font: 17px/1.6 Geist, system-ui, sans-serif; }
+  a { color: inherit; }
+  p { margin: 0; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
+  h1, h2, h3 { font-family: "Bricolage Grotesque", Geist, sans-serif; margin: 0; letter-spacing: -0.03em; }
+  h2 { font-size: clamp(34px, 5.2vw, 50px); line-height: 1.05; }
+  .label { font-size: 14px; font-weight: 600; color: var(--muted); margin-bottom: 10px; }
+  .lead { color: var(--muted); font-size: 18px; max-width: 36em; margin-top: 14px; }
+
+  /* ---------- nav ---------- */
+  .nav { position: sticky; top: 0; z-index: 50; background: color-mix(in srgb, var(--bg) 86%, transparent); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid transparent; transition: border-color .2s; }
+  .nav.scrolled { border-bottom-color: var(--line); }
+  .nav .wrap { display: flex; justify-content: space-between; align-items: center; height: 64px; }
+  .brand { display: flex; gap: 10px; align-items: center; font-weight: 600; text-decoration: none; }
+  .brand img { width: 34px; height: 34px; border-radius: 10px; }
+  .nav .get { font-weight: 600; font-size: 15px; text-decoration: none; background: var(--ink); color: var(--bg); padding: 0 18px; min-height: 42px; display: inline-flex; align-items: center; border-radius: 999px; }
+
+  /* ---------- buttons ---------- */
+  .btn { display: inline-flex; align-items: center; gap: 12px; min-height: 58px; padding: 0 26px 0 20px; border-radius: 999px;
+    background: var(--lime); color: #141517; font-weight: 600; font-size: 17px; text-decoration: none; transition: transform .15s, box-shadow .2s; box-shadow: 0 8px 24px -10px rgba(182,218,46,.9); }
+  .btn:hover { transform: translateY(-2px); }
+  .btn:active { transform: scale(.97); }
+  .btn svg { width: 22px; height: 22px; }
+  .meta { font-size: 14px; color: var(--muted); margin-top: 14px; }
+
+  /* ---------- hero ---------- */
+  .hero { padding: 48px 0 88px; }
+  .hero .wrap { display: grid; gap: 56px; align-items: center; }
+  @media (min-width: 900px) { .hero .wrap { grid-template-columns: 1.1fr .9fr; } }
+  .pills { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
+  .pill { font-size: 14px; font-weight: 500; padding: 6px 12px; border-radius: 999px; background: var(--card); border: 1px solid var(--line); }
+  h1 { font-size: clamp(46px, 7.6vw, 80px); line-height: 1; margin-bottom: 22px; }
+  h1 .hl { background: linear-gradient(transparent 58%, var(--lime) 58% 92%, transparent 92%); padding: 0 .06em; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) h1 .hl { background: none; color: var(--lime); } }
+  :root[data-theme="dark"] h1 .hl { background: none; color: var(--lime); }
+  .intro { font-size: 19px; color: var(--muted); max-width: 32em; margin-bottom: 30px; }
+
+  /* ---------- receipt ---------- */
+  .slot { position: relative; max-width: 360px; width: 100%; margin: 0 auto; }
+  .slot::before { content: ""; display: block; height: 14px; border-radius: 8px; background: var(--inverse); position: relative; z-index: 2; }
+  .clip { overflow: hidden; margin: -6px 14px 0; padding-bottom: 30px; }
+  .receipt { background: #FFFFFF; color: #141517; padding: 24px 22px 26px; position: relative; font: 13.5px/1.6 "JetBrains Mono", monospace;
+    box-shadow: 0 18px 30px -18px rgba(20,21,23,.45); transform: translateY(-100%); animation: print 2s steps(20, end) .3s forwards; }
+  .receipt::after { content: ""; position: absolute; left: 0; right: 0; bottom: -10px; height: 10px;
+    background: linear-gradient(-45deg, transparent 7px, #fff 0) 0 0 / 14px 10px repeat-x, linear-gradient(45deg, transparent 7px, #fff 0) 0 0 / 14px 10px repeat-x; }
+  @keyframes print { to { transform: none; } }
+  .receipt .head { display: flex; align-items: center; gap: 10px; }
+  .receipt .head img { width: 28px; height: 28px; border-radius: 8px; }
+  .receipt .sm { font-size: 11.5px; color: #6B6E73; }
+  .receipt .dash { border-top: 1.5px dashed #C9CAC4; margin: 12px 0; }
+  .receipt .row { display: flex; gap: 8px; }
+  .receipt .row span:first-child { flex: 1; overflow: hidden; white-space: nowrap; }
+  .receipt .row span:first-child::after { content: " ........................................"; color: #BABBB5; }
+  .receipt .tot { font-weight: 600; font-size: 15px; }
+  .receipt .bars { display: flex; height: 8px; gap: 3px; margin: 10px 0 2px; }
+  .receipt .bars i { border-radius: 4px; }
+  .stamp { position: absolute; right: 14px; bottom: 20px; border: 3px solid var(--red); color: var(--red); font: 600 20px/1 "JetBrains Mono", monospace;
+    letter-spacing: .12em; padding: 8px 12px 6px; border-radius: 6px; transform: rotate(-12deg) scale(2.4); opacity: 0; animation: stamp .35s cubic-bezier(.2,1.6,.4,1) 2.6s forwards; }
+  @keyframes stamp { to { transform: rotate(-12deg) scale(1); opacity: .9; } }
+
+  /* ---------- sections ---------- */
+  section { padding: 88px 0; }
+  .alt { background: var(--bg-2); }
+
+  /* menu (price list) */
+  .menu { margin-top: 40px; background: var(--card); border-radius: 28px; padding: clamp(20px, 4.5vw, 44px); box-shadow: var(--shadow); }
+  @media (min-width: 820px) { .menu { columns: 2; column-gap: 56px; } }
+  .item { padding: 16px 0; border-bottom: 1px solid var(--line); break-inside: avoid; }
+  .item .line { display: flex; align-items: baseline; gap: 10px; font: 600 20px/1.3 "Bricolage Grotesque", sans-serif; letter-spacing: -0.02em; }
+  .item .dots { flex: 1; min-width: 16px; border-bottom: 2px dotted var(--line); transform: translateY(-5px); }
+  .item .price { font: 600 13px "JetBrains Mono", monospace; background: var(--lime); color: #141517; padding: 3px 8px; border-radius: 6px; white-space: nowrap; letter-spacing: 0; }
+  .item p { color: var(--muted); font-size: 16px; margin-top: 4px; }
+  .item.last { border-bottom: 0; }
+
+  /* day timeline */
+  .day { margin-top: 44px; display: grid; gap: 14px; position: relative; }
+  @media (min-width: 640px) { .day { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 980px) { .day { grid-template-columns: repeat(4, 1fr); } .day::before { content: ""; position: absolute; top: 33px; left: 24px; right: 24px; height: 2px; background: var(--line); } }
+  .entry { background: var(--card); border-radius: 24px; padding: 22px; position: relative; box-shadow: var(--shadow); }
+  .entry .time { display: inline-flex; align-items: center; gap: 8px; font: 600 13px "JetBrains Mono", monospace; color: var(--muted); background: var(--card); position: relative; padding-right: 8px; }
+  .entry .time::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--lime-bar); box-shadow: 0 0 0 4px var(--card); }
+  .entry h3 { font-size: 22px; margin: 12px 0 6px; line-height: 1.15; }
+  .entry p { color: var(--muted); font-size: 15.5px; }
+  .entry .tag { display: inline-block; margin-top: 12px; font: 600 12px "JetBrains Mono", monospace; padding: 4px 8px; border-radius: 6px; color: #141517; }
+
+  /* install */
+  .install { display: grid; gap: 40px; }
+  @media (min-width: 900px) { .install { grid-template-columns: .85fr 1.15fr; } }
+  ol.steps { margin: 0; padding: 0; list-style: none; counter-reset: s; background: var(--card); border-radius: 28px; padding: 8px clamp(18px, 4vw, 32px); box-shadow: var(--shadow); }
+  ol.steps li { counter-increment: s; display: grid; grid-template-columns: 40px 1fr; gap: 14px; padding: 18px 0; border-top: 1px solid var(--line); }
+  ol.steps li:first-child { border-top: 0; }
+  ol.steps li::before { content: counter(s); width: 32px; height: 32px; border-radius: 50%; background: var(--lime); color: #141517; display: grid; place-items: center; font: 700 15px "Bricolage Grotesque", sans-serif; }
+  ol.steps b { font-weight: 600; }
+  .note { margin-top: 18px; background: var(--card); border-left: 4px solid var(--lime-bar); border-radius: 12px; padding: 14px 16px; font-size: 15px; color: var(--muted); }
+
+  /* faq */
+  .faq { margin-top: 30px; max-width: 760px; }
+  details { background: var(--card); border-radius: 18px; margin-bottom: 10px; }
+  summary { list-style: none; cursor: pointer; padding: 18px 20px; font-size: 17px; font-weight: 600; display: flex; justify-content: space-between; align-items: center; gap: 16px; min-height: 44px; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: "+"; font-size: 24px; font-weight: 400; transition: transform .25s; }
+  details[open] summary::after { transform: rotate(45deg); }
+  details p { color: var(--muted); padding: 0 20px 18px; }
+
+  /* credit */
+  .credit { background: var(--inverse); color: var(--on-inverse); border-radius: 32px; padding: clamp(28px, 6vw, 56px); display: grid; gap: 24px; align-items: center; }
+  @media (min-width: 760px) { .credit { grid-template-columns: 1fr auto; } }
+  .credit h2 { color: #fff; }
+  .credit p { color: #B9BCC1; margin-top: 10px; }
+
+  footer { padding: 32px 0 120px; font-size: 14px; color: var(--muted); }
+  footer .wrap { display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between; border-top: 1px solid var(--line); padding-top: 20px; }
+
+  /* sticky download (phones) */
+  .dock { position: fixed; left: 12px; right: 12px; bottom: 12px; z-index: 60; display: flex; align-items: center; gap: 12px; padding: 10px 10px 10px 12px;
+    background: #141517; color: #fff; border-radius: 20px; transform: translateY(150%); transition: transform .4s cubic-bezier(.2,.9,.3,1); }
+  .dock.show { transform: none; }
+  .dock img { width: 40px; height: 40px; border-radius: 11px; }
+  .dock div { flex: 1; line-height: 1.25; font-size: 15px; }
+  .dock small { opacity: .7; font-size: 13px; }
+  .dock a { background: var(--lime); color: #141517; text-decoration: none; font-weight: 600; padding: 0 18px; min-height: 46px; display: inline-flex; align-items: center; border-radius: 999px; }
+  @media (min-width: 760px) { .dock { display: none; } }
+
+  /* reveal */
+  .r { opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s ease; }
+  .r.in { opacity: 1; transform: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .receipt { transform: none; } .stamp { opacity: .9; transform: rotate(-12deg); } .r { opacity: 1; transform: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="wrap">
+    <a class="brand" href="#"><img src="icon.png" alt="">FitTrack</a>
+    <a class="get" href="#get">Get the app</a>
+  </div>
+</nav>
+
+<main>
+<section class="hero">
+  <div class="wrap">
+    <div class="r">
+      <div class="pills"><span class="pill">Free</span><span class="pill">Android</span><span class="pill">Filipino foods built in</span></div>
+      <h1>Snap your plate.<br>Get the <span class="hl">numbers.</span></h1>
+      <p class="intro">FitTrack reads your meal from one photo, from tapsilog to tinola, and tells you what you still need today: calories, protein, and a cheap way to close the gap.</p>
+      <div id="get">
+        <a class="btn" href="https://github.com/canedoalbert6-droid/fittrack/releases/latest/download/FitTrack.apk" download>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-5-5m5 5 5-5M5 21h14"/></svg>
+          Download for Android
+        </a>
+        <p class="meta">29 MB · Android 8 or newer · not available for iPhone<br>
+          Older phone? Get the <a href="https://github.com/canedoalbert6-droid/fittrack/releases/latest/download/FitTrack-older-phones.apk" download>version for older phones</a> (26 MB).</p>
+      </div>
+    </div>
+
+    <div class="slot" role="img" aria-label="Example scan result: tapsilog, 610 kcal, 37 g protein, logged">
+      <div class="clip">
+        <div class="receipt" aria-hidden="true">
+          <div class="head"><img src="icon.png" alt=""><div><b>FitTrack</b><br><span class="sm">Photo scan · 12:41 PM</span></div></div>
+          <div class="dash"></div>
+          <div class="row"><span>Tapsilog</span><span>1 plate</span></div>
+          <div class="row sm"><span>&nbsp;&nbsp;Beef tapa, 100 g</span><span>220</span></div>
+          <div class="row sm"><span>&nbsp;&nbsp;Garlic rice, 1 cup</span><span>300</span></div>
+          <div class="row sm"><span>&nbsp;&nbsp;Fried egg</span><span>90</span></div>
+          <div class="dash"></div>
+          <div class="row tot"><span>Total kcal</span><span>610</span></div>
+          <div class="bars"><i style="flex:148;background:#B6DA2E"></i><i style="flex:264;background:#7DBBF2"></i><i style="flex:198;background:#F5A866"></i></div>
+          <div class="row"><span>Protein</span><span>37 g</span></div>
+          <div class="row"><span>Carbs</span><span>66 g</span></div>
+          <div class="row"><span>Fat</span><span>22 g</span></div>
+          <div class="dash"></div>
+          <div class="row"><span>Left today</span><span>1,240 kcal</span></div>
+          <div class="row"><span>Protein to go</span><span>42 g</span></div>
+          <div style="height:44px"></div>
+          <div class="stamp">LOGGED</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <div class="r">
+      <div class="label">What's inside</div>
+      <h2>Everything in the app</h2>
+      <p class="lead">No ads, no subscription, no account needed.</p>
+    </div>
+    <div class="menu r">
+      <div class="item"><div class="line">AI food scanner<span class="dots"></span><span class="price">25 scans/day</span></div>
+        <p>Take a photo and get calories, protein, carbs and fat. Adjust any amount before saving.</p></div>
+      <div class="item"><div class="line">Filipino foods<span class="dots"></span><span class="price">68 dishes</span></div>
+        <p>Real portions like "1 cup rice", "silog plate" and "2 pieces", one tap each.</p></div>
+      <div class="item"><div class="line">Budget meal ideas<span class="dots"></span><span class="price">from ₱10</span></div>
+        <p>Short on protein? Cheap recipes from what's in your kitchen, or what to buy at a convenience store.</p></div>
+      <div class="item"><div class="line">Smartwatch sync<span class="dots"></span><span class="price">Health Connect</span></div>
+        <p>Steps, active calories, heart rate and sleep from Mi Fitness, Samsung Health, Fitbit and more.</p></div>
+      <div class="item"><div class="line">Adaptive calorie goal<span class="dots"></span><span class="price">2 weeks</span></div>
+        <p>Learns your real maintenance calories from what you eat and how your weight changes.</p></div>
+      <div class="item last"><div class="line">Reminders<span class="dots"></span><span class="price">optional</span></div>
+        <p>Morning weigh-in, meal reminders and an evening protein nudge.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="r">
+      <div class="label">How it fits your day</div>
+      <h2>A day with FitTrack</h2>
+    </div>
+    <div class="day">
+      <div class="entry r"><div class="time">7:05 AM</div><h3>Weigh in</h3>
+        <p>Your 7-day average smooths out daily ups and downs, so one salty dinner doesn't look like a setback.</p><span class="tag" style="background:var(--blue)">68.9 kg average</span></div>
+      <div class="entry r" style="transition-delay:.06s"><div class="time">12:41 PM</div><h3>Snap lunch</h3>
+        <p>One photo of your plate. The numbers are in before your food gets cold.</p><span class="tag" style="background:var(--lime)">610 kcal · 37 g protein</span></div>
+      <div class="entry r" style="transition-delay:.12s"><div class="time">4:30 PM</div><h3>Close the gap</h3>
+        <p>42 g of protein to go? It suggests boiled eggs and canned tuna from the nearest store.</p><span class="tag" style="background:var(--peach)">about ₱60</span></div>
+      <div class="entry r" style="transition-delay:.18s"><div class="time">9:00 PM</div><h3>Watch adds up</h3>
+        <p>You walked more than usual, so the extra calories you burned go into today's budget.</p><span class="tag" style="background:var(--lime)">+180 kcal</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap install">
+    <div class="r">
+      <div class="label">Install</div>
+      <h2>Ready in two minutes</h2>
+      <p class="lead">FitTrack isn't on the Play Store yet, so Android asks a few extra questions. That's normal.</p>
+      <p class="note">Google Play Protect warns about every app installed from outside the Play Store. Tap <b>More details → Install anyway</b>.</p>
+    </div>
+    <ol class="steps r">
+      <li><div><b>Open this page on your Android phone</b> and tap <b>Download for Android</b>. If Chrome asks, tap <b>Download anyway</b>.</div></li>
+      <li><div><b>Open the file</b> from the notification, or go to <b>Files → Downloads → FitTrack.apk</b>.</div></li>
+      <li><div>If your phone blocks unknown apps, tap <b>Settings</b>, turn on <b>Allow from this source</b>, then go back.</div></li>
+      <li><div>Tap <b>Install</b>.</div></li>
+      <li><div><b>Open FitTrack</b>, enter your age, height, weight and goal, and snap your next meal.</div></li>
+    </ol>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="r"><div class="label">FAQ</div><h2>Questions</h2></div>
+    <div class="faq r">
+      <details><summary>Is it free?</summary><p>Yes. No ads, no subscription, no account. Photo scans are limited to 25 per phone per day so the free AI service stays free for everyone.</p></details>
+      <details><summary>Where is my data stored?</summary><p>On your phone: profile, weight, food log and watch data. When you scan a meal, the photo is sent to Google's Gemini AI to read the food. FitTrack doesn't keep it, but Google's free AI service may, so don't scan anything private. Uninstalling deletes everything.</p></details>
+      <details><summary>How do I connect my smartwatch?</summary><p>Install <b>Health Connect</b> from the Play Store (built in on Android 14+). In your watch app (Mi Fitness, Samsung Health, Fitbit…) turn on syncing to Health Connect. Then in FitTrack go to Settings → Smartwatch → Connect.</p></details>
+      <details><summary>How do I update?</summary><p>From version 1.0.2, the app tells you when a new version is out and downloads it with one tap. Install it over the old one; your data stays.</p></details>
+      <details><summary>Does it work on iPhone?</summary><p>Not yet. iPhones can only install apps from the App Store.</p></details>
+      <details><summary>Is this medical advice?</summary><p>No. The numbers are estimates. Talk to a doctor or dietitian about health conditions or big diet changes.</p></details>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:8px">
+  <div class="wrap">
+    <div class="credit r">
+      <div>
+        <h2>Made by Albert Jhun Cañedo</h2>
+        <p>Design and development. Found a bug or have an idea? Get in touch.</p>
+      </div>
+      <a class="btn" href="https://github.com/canedoalbert6-droid/fittrack/releases/latest/download/FitTrack.apk" download>Get FitTrack</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer><div class="wrap"><span>FitTrack v1.0.2 · Android</span><span>Made in the Philippines</span></div></footer>
+
+<div class="dock" id="dock">
+  <img src="icon.png" alt="">
+  <div><b>FitTrack</b><br><small>Free · Android · 29 MB</small></div>
+  <a href="https://github.com/canedoalbert6-droid/fittrack/releases/latest/download/FitTrack.apk" download>Download</a>
+</div>
+
+<script>
+(() => {
+  const io = new IntersectionObserver((es) => es.forEach((e) => {
+    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+  }), { threshold: 0.12 });
+  document.querySelectorAll('.r').forEach((el) => io.observe(el));
+
+  const nav = document.getElementById('nav'), get = document.getElementById('get'), dock = document.getElementById('dock');
+  const onScroll = () => {
+    nav.classList.toggle('scrolled', scrollY > 8);
+    dock.classList.toggle('show', get.getBoundingClientRect().bottom < 0 && innerHeight + scrollY < document.body.scrollHeight - 120);
+  };
+  addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+})();
+</script>
+</body>
+</html>
