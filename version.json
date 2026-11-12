@@ -1,12 +1,15 @@
 {
-  "build": 2009,
-  "version": "1.0.8",
+  "build": 2010,
+  "version": "1.0.9",
   "notes": [
-    "Heart rate now shows when it was measured, e.g. \"Heart rate · 2:41 PM\""
+    "Watch status now works for phones that only share steps",
+    "Check for updates tells you when you're offline",
+    "Deleted meals no longer leave photos behind",
+    "No more \"not connected\" reminder for Infinix watches"
   ],
   "apk": {
-    "arm64": "https://github.com/canedoalbert6-droid/fittrack/releases/download/v1.0.8/FitTrack.apk",
-    "arm": "https://github.com/canedoalbert6-droid/fittrack/releases/download/v1.0.8/FitTrack-older-phones.apk"
+    "arm64": "https://github.com/canedoalbert6-droid/fittrack/releases/download/v1.0.9/FitTrack.apk",
+    "arm": "https://github.com/canedoalbert6-droid/fittrack/releases/download/v1.0.9/FitTrack-older-phones.apk"
   },
   "page": "https://canedoalbert6-droid.github.io/fittrack/"
 }
