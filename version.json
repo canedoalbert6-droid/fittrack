@@ -1,15 +1,14 @@
 {
-  "build": 3,
-  "version": "1.0.2",
+  "build": 2004,
+  "version": "1.0.3",
   "notes": [
-    "The app now tells you when a new version is out",
-    "Check for updates in Settings",
-    "New plate icon and livelier animations",
-    "Bug fixes for reminders and scrolling"
+    "Fixed the Activity screen title squeezing into one letter per line",
+    "Your watch now shows a proper name instead of a code",
+    "Update popup now works on every phone"
   ],
   "apk": {
-    "arm64": "https://github.com/canedoalbert6-droid/fittrack/releases/download/v1.0.2/FitTrack.apk",
-    "arm": "https://github.com/canedoalbert6-droid/fittrack/releases/download/v1.0.2/FitTrack-older-phones.apk"
+    "arm64": "https://github.com/canedoalbert6-droid/fittrack/releases/download/v1.0.3/FitTrack.apk",
+    "arm": "https://github.com/canedoalbert6-droid/fittrack/releases/download/v1.0.3/FitTrack-older-phones.apk"
   },
   "page": "https://canedoalbert6-droid.github.io/fittrack/"
 }
