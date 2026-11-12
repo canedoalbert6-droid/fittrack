@@ -1,14 +1,15 @@
 {
-  "build": 2011,
-  "version": "1.1.0",
+  "build": 2012,
+  "version": "1.1.1",
   "notes": [
-    "91 new Filipino dishes: 159 in total",
-    "Silog plates, inasal, lechon, sisig, pares, street food, kakanin and drinks",
-    "Filipino serving sizes like \"1 paa\", \"3 sticks\" and \"1 small cup\""
+    "56 budget recipes and 47 store picks in Meal ideas",
+    "Carinderia meals: rice + monggo, sinigang, inasal and more",
+    "The full Minute Burger menu (estimated nutrition)",
+    "7-Eleven's 7-Fresh chicken breast: 19 g protein"
   ],
   "apk": {
-    "arm64": "https://github.com/canedoalbert6-droid/fittrack/releases/download/v1.1.0/FitTrack.apk",
-    "arm": "https://github.com/canedoalbert6-droid/fittrack/releases/download/v1.1.0/FitTrack-older-phones.apk"
+    "arm64": "https://github.com/canedoalbert6-droid/fittrack/releases/download/v1.1.1/FitTrack.apk",
+    "arm": "https://github.com/canedoalbert6-droid/fittrack/releases/download/v1.1.1/FitTrack-older-phones.apk"
   },
   "page": "https://canedoalbert6-droid.github.io/fittrack/"
 }
