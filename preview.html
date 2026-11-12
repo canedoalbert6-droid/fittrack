@@ -160,6 +160,33 @@
   .dock a { background: var(--lime); color: #141517; text-decoration: none; font-weight: 600; padding: 0 18px; min-height: 46px; display: inline-flex; align-items: center; border-radius: 999px; }
   @media (min-width: 760px) { .dock { display: none; } }
 
+
+  /* developer */
+  .brand small { font-weight: 400; color: var(--muted); font-size: 14px; }
+  @media (max-width: 520px) { .brand small { display: none; } }
+  .byline { display: flex; align-items: center; gap: 12px; margin-top: 28px; padding-top: 22px; border-top: 1px solid var(--line); max-width: 30em; }
+  .mono-av { flex: none; width: 46px; height: 46px; border-radius: 50%; background: var(--inverse); color: var(--lime); display: grid; place-items: center; font: 400 17px "Young Serif", Georgia, serif; }
+  .byline b { display: block; font-weight: 600; }
+  .byline span { color: var(--muted); font-size: 15px; }
+  .dev { display: grid; gap: 28px; align-items: stretch; }
+  @media (min-width: 860px) { .dev { grid-template-columns: .8fr 1.2fr; gap: 40px; } }
+  .dev-card { background: var(--inverse); color: #fff; border-radius: 32px; padding: 32px; display: flex; flex-direction: column; justify-content: space-between; gap: 40px; min-height: 340px; position: relative; overflow: hidden; }
+  .dev-card .big { font: 400 clamp(88px, 14vw, 140px)/0.9 "Young Serif", Georgia, serif; color: var(--lime); letter-spacing: -0.02em; }
+  .dev-card .who { font-size: 15px; color: #B9BCC1; line-height: 1.5; }
+  .dev-card .who b { color: #fff; font-size: 18px; display: block; }
+  .dev-card .ring { position: absolute; right: -60px; top: -60px; width: 220px; height: 220px; border-radius: 50%; border: 14px solid rgba(221,244,122,.12); }
+  .dev h2.name { font-size: clamp(40px, 6vw, 60px); line-height: 1.02; margin-top: 4px; }
+  .dev .role { color: var(--muted); font-size: 17px; margin-top: 8px; }
+  .dev .bio { font-size: 18px; margin-top: 22px; max-width: 34em; }
+  .built { list-style: none; padding: 0; margin: 26px 0 0; display: grid; gap: 10px; }
+  @media (min-width: 560px) { .built { grid-template-columns: 1fr 1fr; } }
+  .built li { background: var(--card); border-radius: 18px; padding: 14px 16px; box-shadow: var(--shadow); }
+  .built b { display: block; font-weight: 600; }
+  .built span { color: var(--muted); font-size: 14px; }
+  .dev .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
+  .btn-ghost { display: inline-flex; align-items: center; gap: 10px; min-height: 58px; padding: 0 22px; border-radius: 999px; border: 1.5px solid var(--ink); text-decoration: none; font-weight: 600; }
+  .btn-ghost svg { width: 20px; height: 20px; }
+
   /* reveal */
   .r { opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s ease; }
   .r.in { opacity: 1; transform: none; }
@@ -174,7 +201,7 @@
 
 <nav class="nav" id="nav">
   <div class="wrap">
-    <a class="brand" href="#"><img src="icon.png" alt="">FitTrack</a>
+    <a class="brand" href="#"><img src="icon.png" alt="">FitTrack <small>by Albert Jhun Cañedo</small></a>
     <a class="get" href="#get">Get the app</a>
   </div>
 </nav>
@@ -194,6 +221,10 @@
         <p class="meta">29 MB · Android 8 or newer · not available for iPhone<br>
           Older phone? Get the <a href="https://github.com/canedoalbert6-droid/fittrack/releases/latest/download/FitTrack-older-phones.apk" download>version for older phones</a> (26 MB).</p>
       </div>
+      <a class="byline" href="#developer" style="text-decoration:none">
+        <span class="mono-av" aria-hidden="true">AJC</span>
+        <div><b>Designed &amp; developed by Albert Jhun Cañedo</b><span>Independent developer · Philippines</span></div>
+      </a>
     </div>
 
     <div class="slot" role="img" aria-label="Example scan result: tapsilog, 610 kcal, 37 g protein, logged">
@@ -214,6 +245,8 @@
           <div class="dash"></div>
           <div class="row"><span>Left today</span><span>1,240 kcal</span></div>
           <div class="row"><span>Protein to go</span><span>42 g</span></div>
+          <div class="dash"></div>
+          <div class="row sm"><span>Developer</span><span>Albert J. Cañedo</span></div>
           <div style="height:44px"></div>
           <div class="stamp">LOGGED</div>
         </div>
@@ -297,20 +330,40 @@
   </div>
 </section>
 
-<section style="padding-top:8px">
-  <div class="wrap">
-    <div class="credit r">
-      <div>
-        <h2>Made by Albert Jhun Cañedo</h2>
-        <p>Design and development. Found a bug or have an idea? Get in touch.</p>
+<section class="alt" id="developer">
+  <div class="wrap dev">
+    <div class="dev-card r">
+      <span class="ring" aria-hidden="true"></span>
+      <div class="big" aria-hidden="true">AJC</div>
+      <div class="who"><b>Albert Jhun Cañedo</b>Designer &amp; developer of FitTrack</div>
+    </div>
+    <div class="r">
+      <div class="label">Meet the developer</div>
+      <h2 class="name">Albert Jhun Cañedo</h2>
+      <p class="role">Independent developer from the Philippines</p>
+      <p class="bio">I designed and developed FitTrack because most calorie apps don't know Filipino food. I wanted one that understands a silog plate, tells me how much protein I'm still missing, and suggests something affordable to close the gap. If you find a bug or want a dish added, reach out.</p>
+      <ul class="built">
+        <li><b>The Android app</b><span>Design, code and every screen</span></li>
+        <li><b>The AI food scanner</b><span>Photo in, nutrition out</span></li>
+        <li><b>Smartwatch sync</b><span>Through Health Connect</span></li>
+        <li><b>This website</b><span>Plus the in-app updates</span></li>
+      </ul>
+      <div class="actions">
+        <a class="btn" href="https://github.com/canedoalbert6-droid/fittrack/releases/latest/download/FitTrack.apk" download>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-5-5m5 5 5-5M5 21h14"/></svg>
+          Get FitTrack
+        </a>
+        <a class="btn-ghost" href="https://github.com/canedoalbert6-droid" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.4-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>
+          GitHub
+        </a>
       </div>
-      <a class="btn" href="https://github.com/canedoalbert6-droid/fittrack/releases/latest/download/FitTrack.apk" download>Get FitTrack</a>
     </div>
   </div>
 </section>
 </main>
 
-<footer><div class="wrap"><span>FitTrack v1.0.2 · Android</span><span>Made in the Philippines</span></div></footer>
+<footer><div class="wrap"><span>FitTrack v1.0.2 · Android</span><span>Designed &amp; developed by Albert Jhun Cañedo · Philippines</span></div></footer>
 
 <div class="dock" id="dock">
   <img src="icon.png" alt="">
