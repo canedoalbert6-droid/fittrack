@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FitTrack</title>
+<meta name="description" content="Snap your food, hit your protein, and sync your smartwatch. Free Android app with Filipino foods built in.">
+<meta property="og:title" content="FitTrack: food scanner and fitness tracker">
+<meta property="og:description" content="Snap your food, hit your protein, and sync your smartwatch. Free Android app.">
+<meta name="theme-color" content="#141517">
+<link rel="icon" href="icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F4F4F1; --card: #FFFFFF; --ink: #141517; --muted: #5F6368;
+    --line: #E6E6E1; --inverse: #141517; --on-inverse: #FFFFFF;
+    --lime: #DDF47A; --lime-bar: #B6DA2E; --blue: #C9E4FF; --peach: #FFD9B3;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0F1012; --card: #1C1D20; --ink: #F2F2EE; --muted: #9EA2A8;
+      --line: #2A2C30; --inverse: #26282C;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font: 16px/1.55 Geist, system-ui, -apple-system, sans-serif;
+  }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 0 16px; }
+  h1, h2, h3, .num { font-family: "Bricolage Grotesque", Geist, sans-serif; letter-spacing: -0.02em; }
+  h1 { font-size: clamp(40px, 9vw, 64px); line-height: 1.02; margin: 0 0 16px; }
+  h2 { font-size: 28px; line-height: 1.15; margin: 0 0 16px; }
+  h3 { font-size: 19px; margin: 0 0 4px; }
+  p { margin: 0 0 12px; }
+  .muted { color: var(--muted); }
+  a { color: inherit; }
+
+  header { padding: 20px 0; }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 600; }
+  .brand img { width: 32px; height: 32px; border-radius: 9px; }
+
+  .hero { padding: 32px 0 40px; }
+  .hero .lede { font-size: 19px; color: var(--muted); max-width: 34ch; margin-bottom: 28px; }
+  .cta {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--lime); color: #141517; text-decoration: none;
+    font-weight: 600; font-size: 17px; padding: 16px 26px; border-radius: 999px;
+    min-height: 56px;
+  }
+  .cta:hover { filter: brightness(0.96); }
+  .cta svg { width: 20px; height: 20px; }
+  .fine { font-size: 14px; color: var(--muted); margin-top: 12px; }
+
+  .card { background: var(--card); border-radius: 28px; padding: 24px; margin-bottom: 14px; }
+  .dark { background: var(--inverse); color: var(--on-inverse); }
+  .dark .muted { color: #B9BCC1; }
+
+  section { padding: 24px 0; }
+
+  ol.steps { list-style: none; padding: 0; margin: 0; counter-reset: s; }
+  ol.steps li { counter-increment: s; display: grid; grid-template-columns: 36px 1fr; gap: 14px; padding: 14px 0; border-top: 1px solid var(--line); }
+  ol.steps li:first-child { border-top: 0; padding-top: 0; }
+  ol.steps li::before {
+    content: counter(s); width: 32px; height: 32px; border-radius: 50%;
+    background: var(--lime); color: #141517; font-weight: 700;
+    display: grid; place-items: center; font-family: "Bricolage Grotesque", sans-serif;
+  }
+  ol.steps b { font-weight: 600; }
+
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 560px) { .grid { grid-template-columns: 1fr; } }
+  .feature { border-radius: 24px; padding: 20px; color: #141517; }
+  .feature p { margin: 0; font-size: 15px; color: #3A3D42; }
+  .f1 { background: var(--lime); } .f2 { background: var(--blue); }
+  .f3 { background: var(--peach); } .f4 { background: #E6DDF0; }
+  .f5 { background: #D9E4D0; } .f6 { background: #FFE9CF; }
+
+  details { border-top: 1px solid var(--line); padding: 14px 0; }
+  details:first-of-type { border-top: 0; padding-top: 0; }
+  summary { cursor: pointer; font-weight: 600; min-height: 28px; }
+  details p { margin: 10px 0 0; color: var(--muted); }
+
+  footer { padding: 32px 0 48px; color: var(--muted); font-size: 14px; }
+  code { font-size: 0.92em; background: var(--line); padding: 1px 6px; border-radius: 6px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand"><img src="icon.png" alt="">FitTrack</div>
+  </header>
+
+  <div class="hero">
+    <h1>Snap your food.<br>Hit your protein.</h1>
+    <p class="lede">A free fitness tracker with an AI food scanner, Filipino foods built in, and smartwatch sync.</p>
+    <a class="cta" href="https://github.com/canedoalbert6-droid/fittrack/releases/latest/download/FitTrack.apk" download>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-5-5m5 5 5-5M5 21h14"/></svg>
+      Download for Android
+    </a>
+    <p class="fine">29 MB · Android 8 or newer · not available for iPhone.<br>
+      Phone older than about 2017? Get the <a href="https://github.com/canedoalbert6-droid/fittrack/releases/latest/download/FitTrack-older-phones.apk" download>version for older phones</a> (26 MB).</p>
+  </div>
+
+  <section>
+    <div class="card">
+      <h2>How to install</h2>
+      <p class="muted">FitTrack isn't on the Play Store yet, so Android asks a few extra questions. That's normal.</p>
+      <ol class="steps">
+        <li><div><b>Open this page on your Android phone</b> in Chrome and tap <b>Download for Android</b>. If Chrome says the file might be harmful, tap <b>Download anyway</b>.</div></li>
+        <li><div><b>Open the downloaded file.</b> Tap the notification, or go to <b>Files → Downloads → FitTrack.apk</b>.</div></li>
+        <li><div><b>Allow installing.</b> If your phone says "For your security, your phone is not allowed to install unknown apps", tap <b>Settings</b>, turn on <b>Allow from this source</b>, then go back.</div></li>
+        <li><div><b>Tap Install.</b> If Google Play Protect shows "Unsafe app blocked" or asks to scan, tap <b>More details → Install anyway</b>. It warns about every app that isn't from the Play Store.</div></li>
+        <li><div><b>Open FitTrack</b> and fill in your age, height, weight and goal. Done.</div></li>
+      </ol>
+    </div>
+  </section>
+
+  <section>
+    <h2>What it does</h2>
+    <div class="grid">
+      <div class="feature f1"><h3>AI food scanner</h3><p>Take a photo of your plate and get calories, protein, carbs and fat in seconds.</p></div>
+      <div class="feature f2"><h3>Filipino foods</h3><p>Adobo, sinigang, silog, pancit and more, with real portions like "1 cup rice".</p></div>
+      <div class="feature f3"><h3>Smart calorie goal</h3><p>Learns your real maintenance calories from what you eat and how your weight moves.</p></div>
+      <div class="feature f4"><h3>Smartwatch sync</h3><p>Reads steps, active calories, heart rate and sleep through Health Connect.</p></div>
+      <div class="feature f5"><h3>Budget meal ideas</h3><p>Short on protein? Cheap recipes from what's in your kitchen, or what to grab at 7-Eleven.</p></div>
+      <div class="feature f6"><h3>Reminders</h3><p>Morning weigh-in, meal reminders and an evening protein nudge. All optional.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="card">
+      <h2>Questions</h2>
+      <details>
+        <summary>Is it free?</summary>
+        <p>Yes. The food scanner allows 25 photo scans per phone per day so the free AI service stays free for everyone.</p>
+      </details>
+      <details>
+        <summary>Where is my data stored?</summary>
+        <p>On your phone only: your profile, weight, food log and watch data never leave it. When you scan a meal, that photo is sent to Google's Gemini AI to read the food. FitTrack doesn't keep it, but Google's free AI service may store it, so don't scan anything private. Uninstalling the app deletes everything.</p>
+      </details>
+      <details>
+        <summary>How do I connect my smartwatch?</summary>
+        <p>Install <b>Health Connect</b> from the Play Store (built in on Android 14+). In your watch app (Mi Fitness, Samsung Health, Fitbit…) turn on syncing to Health Connect. Then in FitTrack go to Settings → Smartwatch → Connect and allow the permissions.</p>
+      </details>
+      <details>
+        <summary>How do I update?</summary>
+        <p>Download the new version from this page and install it over the old one. Your data stays.</p>
+      </details>
+      <details>
+        <summary>Does it work on iPhone?</summary>
+        <p>Not yet. iPhones can only install apps from the App Store.</p>
+      </details>
+      <details>
+        <summary>Is this medical advice?</summary>
+        <p>No. Calorie and nutrient numbers are estimates. Talk to a doctor or dietitian about health conditions or big diet changes.</p>
+      </details>
+    </div>
+  </section>
+
+  <section>
+    <div class="card dark">
+      <h2>Made by Albert Jhun Cañedo</h2>
+      <p class="muted">Design and development. Found a bug or have an idea? Message me.</p>
+    </div>
+  </section>
+
+  <footer>FitTrack v1.0.0 · Android</footer>
+</div>
+</body>
+</html>
