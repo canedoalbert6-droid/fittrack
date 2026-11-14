@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Replaced by `flutter build web --base-href /fittrack/app/`. -->
+  <base href="/fittrack/app/">
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="FitTrack: Filipino-friendly food and calorie tracker with AI photo scans.">
+  <meta name="theme-color" content="#F4F4F1">
+
+  <!-- iPhone: "Add to Home Screen" opens it full screen like an app -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="FitTrack">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+
+  <link rel="icon" type="image/png" href="favicon.png"/>
+  <title>FitTrack</title>
+  <link rel="manifest" href="manifest.json">
+
+  <style>
+    html, body { margin: 0; height: 100%; background: #F4F4F1; }
+    #splash {
+      position: fixed; inset: 0; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 18px;
+      font-family: -apple-system, system-ui, sans-serif; color: #141517;
+    }
+    #splash img { width: 88px; height: 88px; border-radius: 22px; }
+    #splash p { margin: 0; font-size: 15px; color: #5F6368; }
+  </style>
+</head>
+<body>
+  <div id="splash">
+    <img src="icons/Icon-192.png" alt="">
+    <p>Loading FitTrack…</p>
+  </div>
+  <script>
+    // Hide the loading screen once Flutter has drawn its first frame.
+    window.addEventListener('flutter-first-frame', function () {
+      var s = document.getElementById('splash');
+      if (s) s.remove();
+    });
+  </script>
+  <script src="flutter_bootstrap.js" async></script>
+</body>
+</html>

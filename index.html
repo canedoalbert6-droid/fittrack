@@ -219,7 +219,7 @@
 <section class="hero">
   <div class="wrap">
     <div class="r">
-      <div class="pills"><span class="pill">Free</span><span class="pill">Android</span><span class="pill">Filipino foods built in</span></div>
+      <div class="pills"><span class="pill">Free</span><span class="pill">Android</span><span class="pill">iPhone (web)</span><span class="pill">Filipino foods built in</span></div>
       <h1><span class="ln">Snap your plate.</span><br><span class="ln">Get the <span class="hl">numbers.</span></span></h1>
       <p class="intro">FitTrack reads your meal from one photo, from tapsilog to tinola, and tells you what you still need today: calories, protein, and a cheap way to close the gap.</p>
       <div id="get">
@@ -227,7 +227,7 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-5-5m5 5 5-5M5 21h14"/></svg>
           Download for Android
         </a>
-        <p class="meta">29 MB · Android 8 or newer · not available for iPhone<br>
+        <p class="meta">29 MB · Android 8 or newer · iPhone? <a href="app/">Use the web version</a><br>
           Older phone? Get the <a href="https://github.com/canedoalbert6-droid/fittrack/releases/latest/download/FitTrack-older-phones.apk" download>version for older phones</a> (26 MB).</p>
       </div>
       <a class="byline" href="#developer" style="text-decoration:none">
@@ -322,6 +322,16 @@
       <li><div>Tap <b>Install</b>.</div></li>
       <li><div><b>Open FitTrack</b>, enter your age, height, weight and goal, and snap your next meal.</div></li>
     </ol>
+    <div class="r" id="iphone">
+      <h3 style="margin:28px 0 6px">On iPhone</h3>
+      <p class="lead" style="margin-top:0">There's no App Store version yet, but the web version works like an app.</p>
+    </div>
+    <ol class="steps r">
+      <li><div>Open <a href="app/"><b>canedoalbert6-droid.github.io/fittrack/app</b></a> in <b>Safari</b>.</div></li>
+      <li><div>Tap the <b>Share</b> button, then <b>Add to Home Screen</b>, then <b>Add</b>.</div></li>
+      <li><div>Open <b>FitTrack</b> from your home screen. It runs full screen, like an app.</div></li>
+    </ol>
+    <p class="note r">The web version has food logging, photo scans, recipes and weight, but no smartwatch data or reminders. Your data stays in Safari on that phone, so use <b>Settings → Back up my data</b> now and then. Clearing Safari's website data deletes it.</p>
   </div>
 </section>
 
@@ -334,7 +344,7 @@
       <details><summary>What if I change phones?</summary><p>Go to Settings → Back up my data and save the file to Google Drive or send it to yourself. On the new phone, install FitTrack and tap Settings → Restore from backup. Meal photos aren't included in backups.</p></details>
       <details><summary>How do I connect my smartwatch?</summary><p>Install <b>Health Connect</b> from the Play Store (built in on Android 14+). In your watch app (Mi Fitness, Samsung Health, Fitbit…) turn on syncing to Health Connect. Then in FitTrack go to Settings → Smartwatch → Connect. The app has step-by-step guides for each brand.</p><p>Infinix watches can’t connect yet, because Infinix’s My Health app doesn’t share data with other apps.</p></details>
       <details><summary>How do I update?</summary><p>From version 1.0.2, the app tells you when a new version is out and downloads it with one tap. Install it over the old one; your data stays.</p></details>
-      <details><summary>Does it work on iPhone?</summary><p>Not yet. iPhones can only install apps from the App Store.</p></details>
+      <details><summary>Does it work on iPhone?</summary><p>Yes, as a web app. Open <a href="app/">the web version</a> in Safari, tap Share → Add to Home Screen, and it opens like a normal app. It has everything except smartwatch data and reminders. A real App Store version may come later.</p></details>
       <details><summary>Is this medical advice?</summary><p>No. The numbers are estimates. Talk to a doctor or dietitian about health conditions or big diet changes.</p></details>
     </div>
   </div>
@@ -414,6 +424,25 @@
   addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 })();
+</script>
+<script>
+  (function () {
+    var ios = /iPhone|iPad|iPod/.test(navigator.userAgent) ||
+      (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    if (!ios) return;
+    // Every APK link (header, sticky bar, bottom) opens the web version.
+    document.querySelectorAll('a[href$="FitTrack.apk"]').forEach(function (a) {
+      a.href = 'app/';
+      a.removeAttribute('download');
+    });
+    var btn = document.querySelector('#get .btn');
+    if (!btn) return;
+    btn.href = 'app/';
+    btn.removeAttribute('download');
+    btn.lastChild.textContent = ' Open FitTrack for iPhone';
+    var meta = document.querySelector('#get .meta');
+    if (meta) meta.innerHTML = 'Web version · then Share → Add to Home Screen. <a href="#iphone">How?</a>';
+  })();
 </script>
 </body>
 </html>
