@@ -37,6 +37,10 @@
     <p>Loading FitTrack…</p>
   </div>
   <script>
+    // Ask the browser not to delete FitTrack's data when space runs low.
+    if (navigator.storage && navigator.storage.persist) {
+      navigator.storage.persist().catch(function () {});
+    }
     // Hide the loading screen once Flutter has drawn its first frame.
     window.addEventListener('flutter-first-frame', function () {
       var s = document.getElementById('splash');
